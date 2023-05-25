@@ -11,11 +11,13 @@ import {
   ScrollView,
 } from 'react-native';
 import COLORS from '../../consts/colors';
+import {useNavigation} from '@react-navigation/native';
 const images = new Array(6).fill(
   '/Users/imac17/Documents/training/React-native/test/src/assets/onboardImage.jpg',
 );
 
-const OnBoardScreen = ({navigation}) => {
+const OnBoardScreen = () => {
+  const navigation = useNavigation();
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const {width: windowWidth} = useWindowDimensions();
@@ -91,7 +93,7 @@ const OnBoardScreen = ({navigation}) => {
             paddingBottom: 40,
           }}>
           
-          <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+          <Pressable onPress={() => navigation.navigate('SignIn')}>
             <View style={styles.btn}>
               <Text style={{color: 'white'}}>Get Started</Text>
             </View>

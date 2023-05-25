@@ -5,10 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnBoardScreen from '../screens/OnBoardScreen/OnBoardScreen';
 import SignInScreen from '../screens/SignInScreen/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
-import HomeScreen from '../screens/HomeScreen/index';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ForgetPasswordScreen from '../screens/ForgetPasswordScreen/ForgetPasswordScreen';
 import NewPasswordScreen from '../screens/NewPasswordScren/NewPasswordScreen';
 import EmailConfirmScreen from '../screens/EmailConfirmScreen/EmailConfirm';
+import DetailsScreen from '../screens/DetailScreen/DetailsScreen';
+import AddPropertyToRent from '../screens/AddPropertToRent/AddPropertyToRent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLogin } from '../context/LoginProvider';
 
@@ -50,6 +52,8 @@ const HomeNavigator =()=>{
         }
       }>
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Details" component={DetailsScreen} />
+      <Stack.Screen name="Add" component={AddPropertyToRent} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -60,7 +64,7 @@ const LoginNavigator =()=>{
       <Stack.Navigator screenOptions={{
         headerShown: false,
       }}> 
-      <ScrollView name="OnBoard" component={OnBoardScreen}/>
+      <Stack.Screen name="OnBoard" component={OnBoardScreen}/>
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Forget" component={ForgetPasswordScreen} />

@@ -23,6 +23,7 @@ const SignInScreen = () => {
   const onForgetPress = () => {
     navigation.navigate('Forget')
   };
+ 
   async function checkToken()  {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -139,6 +140,7 @@ const SignInScreen = () => {
         types={'TERTIARY'}
         txt="Don't have a Account? SIGN UP"
       />
+     
       </ScrollView>
       </View>
     </View>
