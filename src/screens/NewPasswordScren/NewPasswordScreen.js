@@ -43,7 +43,11 @@ const NewPasswordScreen = () => {
     }
   };
   return (
-    <View>
+    <View style={{flex:1}}>
+    <View style={{flex:0.35,backgroundColor:"#d5e0e8"}}>
+
+</View>
+<View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
       <ScrollView>
         <Text style={styles.txt}>Reset Your Password</Text>
         <Controller
@@ -98,7 +102,7 @@ const NewPasswordScreen = () => {
         <CustomButton
           onPress={handleSubmit(onSendPress)}
           txt="Submit"
-          types={`SECONDARY`}
+          types={`PRIMARY`}
         />
         <CustomButton
           onPress={onSignInPress}
@@ -106,6 +110,7 @@ const NewPasswordScreen = () => {
           types={`TERTIARY`}
         />
       </ScrollView>
+      </View>
     </View>
   );
 };
@@ -126,18 +131,19 @@ const styles = StyleSheet.create({
     color: '#FDB075',
     textDecorationLine: 'underline',
   },
-  container :{
-    width : '90%',
-    height : 50,
-    justifyContent : 'center',
-    marginLeft : 10,
-    marginVertical : 10,
-    paddingHorizontal:10,
-    backgroundColor : 'white',
-    borderColor : 'black',
-    borderWidth  :1,
-    borderRadius : 5
- },
+  container: {
+    width: '90%',
+    height: 50,
+    marginTop:10,
+    marginBottom:10,
+    marginLeft:20,
+    marginRight:20,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
  error: {
   color:'red',
   marginLeft: 8,

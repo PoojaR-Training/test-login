@@ -34,12 +34,13 @@ const style = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
+    marginLeft: 20,
+    marginRight: 20,
     height: 50,
     width: '90%',
     borderRadius: 5,
     padding: 5,
-    margin :3
+    marginTop :10
   
   },
   container_PRIMARY: {
@@ -52,7 +53,7 @@ const style = StyleSheet.create({
   },
   txt: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -60,7 +61,7 @@ const style = StyleSheet.create({
     color: '#3b72f3',
   },
   txt_TERTIARY: {
-    color: 'gray',
+    color: '#5a6166',
   },
 });
 

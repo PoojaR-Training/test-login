@@ -57,7 +57,11 @@ navigation.navigate('SignIn');
   };
 
   return (
-    <View>
+    <View style={{flex:1}}>
+        <View style={{flex:0.35,backgroundColor:"#d5e0e8"}}>
+
+</View>
+<View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
       <ScrollView>
         <Text style={styles.txt}>Create an Account</Text>
         <View>
@@ -161,12 +165,8 @@ navigation.navigate('SignIn');
             {errors.confirmPassword && (
             <Text style={styles.error}>{errors.confirmPassword.message}</Text>
           )}
-            <Text style={styles.text}>
-          By reggistering, Do you accept our{' '}
-          <Text style={styles.link}>Terms of use</Text> and{' '}
-          <Text style={styles.link}>Privacy Policy</Text>
-        </Text>
-        <CustomButton onPress={handleSubmit(onSubmit)} txt="Register" types={`PRIMARY`} />
+            
+        <CustomButton onPress={handleSubmit(onSubmit)} txt="Register" types={`PRIMARY`}  />
         <CustomButton txt="Forget Password?" types={`TERTIARY`} />
         <CustomButton
           types={'TERTIARY'}
@@ -176,6 +176,7 @@ navigation.navigate('SignIn');
 
         </View>
       </ScrollView>
+      </View>
     </View>
   );
 };
@@ -183,9 +184,10 @@ const styles = StyleSheet.create({
   container: {
     width: '90%',
     height: 50,
-    justifyContent: 'center',
-    marginLeft: 10,
-    marginVertical: 10,
+    marginTop:10,
+    marginBottom:10,
+    marginLeft:20,
+    marginRight:20,
     paddingHorizontal: 10,
     backgroundColor: 'white',
     borderColor: 'black',

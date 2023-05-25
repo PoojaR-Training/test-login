@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import OnBoardScreen from '../screens/OnBoardScreen/OnBoardScreen';
 import SignInScreen from '../screens/SignInScreen/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
 import HomeScreen from '../screens/HomeScreen/index';
@@ -60,6 +60,7 @@ const LoginNavigator =()=>{
       <Stack.Navigator screenOptions={{
         headerShown: false,
       }}> 
+      <ScrollView name="OnBoard" component={OnBoardScreen}/>
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Forget" component={ForgetPasswordScreen} />

@@ -73,13 +73,14 @@ const SignInScreen = () => {
   };
 
   return (
-    <View>      
+    <View style={{flex:1}}>
+    <View style={{flex:0.35,backgroundColor:"#d5e0e8"}}>
+
+</View>
+<View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
+       
       <ScrollView>
-      <Image
-        source={Logo}
-        resizeMode="contain"
-        style={[styles.logo, {height: height * 0.3}]}
-      />
+      <Text style={styles.txt}>Login Account</Text>
           <Controller
             control={control}
             rules={{
@@ -139,26 +140,31 @@ const SignInScreen = () => {
         txt="Don't have a Account? SIGN UP"
       />
       </ScrollView>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  logo: {
-    width: '70%',
-    alignSelf: 'center',
+  txt: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 20,
+    color: '#042675',
   },
-  container :{
-    width : '90%',
-    height : 50,
-    justifyContent : 'center',
-    marginLeft : 10,
-    marginVertical : 10,
-    paddingHorizontal:10,
-    backgroundColor : 'white',
-    borderColor : 'black',
-    borderWidth  :1,
-    borderRadius : 5
- },
+  container: {
+    width: '90%',
+    height: 50,
+    marginTop:10,
+    marginBottom:10,
+    marginLeft:20,
+    marginRight:20,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
  error: {
   color:'red',
   marginLeft: 8,
