@@ -59,7 +59,12 @@ navigation.navigate('SignIn');
   return (
     <View style={{flex:1}}>
         <View style={{flex:0.35,backgroundColor:"#d5e0e8"}}>
-
+        <Image
+          source={{
+            uri: 'https://cdn3.iconfinder.com/data/icons/rental-property-filloutline/64/BROKER-real_estate-broker-housin-price-marketing-64.png',
+          }}
+          style={styles.img}
+        />
 </View>
 <View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
       <ScrollView>
@@ -214,6 +219,13 @@ const styles = StyleSheet.create({
       color:'red',
       marginLeft: 8,
 
+    },
+    img: {
+      height: '40%',
+      width: '30%',
+      marginTop: 50,
+      marginLeft: 140,
+      overflow: 'visible',
     },
 });
 

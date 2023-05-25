@@ -10,15 +10,18 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
+  TouchableOpacity
 } from 'react-native';
 import houses from '../../consts/houses';
 import COLORS from '../../consts/colors';
+import {useNavigation} from '@react-navigation/native';
 const {width} = Dimensions.get('screen');
 const DetailsScreen = () => {
+  const navigation = useNavigation();
   const Card = ({houses}) => {
     return (
-     
         <View style={style.card}>
+          <TouchableOpacity onPress={()=>navigation.navigate('DetailHome')}>
           <Image source={houses.image} style={style.cardImage} />
           <View style={{marginTop: 10}}>
   
@@ -56,7 +59,11 @@ const DetailsScreen = () => {
               </View>
             </View>
           </View>
+          </TouchableOpacity>
+          
         </View>
+        
+        
    
     );
   };

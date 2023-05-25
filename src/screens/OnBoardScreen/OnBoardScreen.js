@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import COLORS from '../../consts/colors';
 import {useNavigation} from '@react-navigation/native';
+
 const images = new Array(6).fill(
   '/Users/imac17/Documents/training/React-native/test/src/assets/onboardImage.jpg',
 );
