@@ -14,8 +14,6 @@ const EmailConfirm = () => {
     formState: {errors},
   } = useForm();
 
-  
-
   const onResendCodePress = () => {
     navigation.navigate('NewPassword',{
       userId,

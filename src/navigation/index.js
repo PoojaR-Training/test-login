@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnBoardScreen from '../screens/OnBoardScreen/OnBoardScreen';

@@ -5,7 +5,6 @@ import {
   StatusBar,
   Text,
   TextInput,
-  FlatList,
   Dimensions,
   StyleSheet,
   Image,
@@ -14,7 +13,6 @@ import {
   TouchableOpacity,
   Touchable,
   TouchableHighlight,
-    
 } from 'react-native';
 import COLORS from '../../consts/colors';
 
@@ -31,6 +29,7 @@ const HomeScreen = ({navigation}) => {
   const handlePress = (index) => {
   const screenName = screenList[index];
    navigation.navigate('Details');
+   //navigation.navigate(screenName)
   };
 
 
@@ -52,9 +51,7 @@ const HomeScreen = ({navigation}) => {
       
     );
   };
-const drawer = ()=>{
-  console.log("dkcj");
-}
+
   return (
     <SafeAreaView style={{flex: 1,backgroundColor:"#d5e0e8"}}>
   
@@ -90,18 +87,18 @@ const drawer = ()=>{
             marginTop:15
           }}>
           <View style={style.searchInputContainer}>
-            <TextInput placeholder="Search address, city, location" />
+            <TextInput placeholder="Search address, city, location" style={{fontSize:18}} />
           </View>
           </View>
         
       </View>
-      <View  style={{backgroundColor:"#668fad", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
+      <View  style={{backgroundColor:"#668fad", flex:1.15,borderTopRightRadius:20, borderTopLeftRadius:20}}>
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <ListOptions />
       </ScrollView>
       </View>
-      <View  style={{backgroundColor:"#d5e0e8", flex:0.15}}>
+      <View  style={{backgroundColor:"#d5e0e8", flex:0.10}}>
         <View style={style.footer}>
           <TouchableOpacity onPress={()=> navigation.navigate("Home")}>
           <Image 
@@ -143,14 +140,14 @@ const style = StyleSheet.create({
        
   },
   searchInputContainer: {
-    height: '145%',
-    width: '91%',
+    height: '180%',
+    width: '95%',
     backgroundColor: "white",
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    borderRadius: 12,
+    borderRadius: 20,
     borderColor:"black",
     borderWidth: 1,
     marginLeft:10,
@@ -186,7 +183,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     flexWrap:'wrap',
-    justifyContent :'space-around'
+    justifyContent :'space-around',
   }
 });
 export default HomeScreen;
