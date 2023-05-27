@@ -95,7 +95,7 @@ const OnBoardScreen = () => {
           
           <Pressable onPress={() => navigation.navigate('SignIn')}>
             <View style={styles.btn}>
-              <Text style={{color: 'white', fontSize:18}}>Get Started</Text>
+              <Text style={{color: 'white', fontSize:17}}>Get Started</Text>
             </View>
           </Pressable>
         </View>

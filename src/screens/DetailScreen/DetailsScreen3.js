@@ -18,7 +18,7 @@ const DetailsScreen3 = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const getApiData = async () => {
-    let result = await fetch('http://192.168.200.136:8000/farmhouse/getfarmhouse');
+    let result = await fetch('http://192.168.200.136:8000/farm/getfarm');
     result = await result.json();
     setData(result);
   };
@@ -28,7 +28,7 @@ const DetailsScreen3 = () => {
   }, []);
   const handleCard = id => {
     console.log(id);
-    navigation.navigate('DetailHome',{
+    navigation.navigate('DetailHome3',{
       id
     });
   };

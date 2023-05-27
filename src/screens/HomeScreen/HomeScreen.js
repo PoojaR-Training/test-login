@@ -11,7 +11,7 @@ import COLORS from '../../consts/colors';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import DetailsScreen1 from '../DetailScreen/DetailsScreen1';
 import DetailsScreen2 from '../DetailScreen/DetailsScreen2';
-
+import DetailsScreen3 from '../DetailScreen/DetailsScreen3';
 const Tab = createMaterialTopTabNavigator();
 const HomeScreen = ({navigation}) => {
  
@@ -71,7 +71,7 @@ const HomeScreen = ({navigation}) => {
           />
           <Tab.Screen
             name="Farms"
-            component={DetailsScreen2}
+            component={DetailsScreen3}
             options={{
               tabBarIcon: () => (
                 <Image

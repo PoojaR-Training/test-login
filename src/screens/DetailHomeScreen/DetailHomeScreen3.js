@@ -21,7 +21,7 @@ const DetailHomeScreen = () => {
   let result;
 
   const getApiData = async () => {
-    result = await fetch(`http://192.168.200.136:8000/home/gethome/${itemId}`);
+    result = await fetch(`http://192.168.200.136:8000/farm/getfarm/${itemId}`);
     result = await result.json();
     setData(result);
   };
@@ -71,7 +71,7 @@ const DetailHomeScreen = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(_, key) => key.toString()}
-            data={data && data.homeimages} // Updated data prop
+            data={data && data.farmimages} // Updated data prop
             renderItem={({item}) => <InteriorCard interior={item} />}
           />
           <View style={style.footer}>
