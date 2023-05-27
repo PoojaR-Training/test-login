@@ -17,30 +17,21 @@ const DetailHomeScreen = () => {
   const route = useRoute();
   const [data, setData] = useState(null);
   const itemId = route.params.id;
-  const interiors = [
-    require('../../assets/interior1.jpg'),
-    require('../../assets/interior2.jpg'),
-    require('../../assets/interior3.jpg'),
-  ];
 
   let result;
-  const inter = [];
+
   const getApiData = async () => {
-    result = await fetch(`http://192.168.200.136:8000/home/gethome/${itemId}`);
+    result = await fetch(`http://192.168.200.136:8000/apartment/getapartment/${itemId}`);
     result = await result.json();
     setData(result);
   };
-{
-  data &&inter.push(data.homeimages)
-}  
-  
-  
+
   useEffect(() => {
     getApiData();
   }, []);
 
   const InteriorCard = ({interior}) => {
-    return <Image source={interior} style={style.interiorImage} />;
+    return <Image source={{uri:interior}} style={style.interiorImage} />;
   };
 
   return (
@@ -69,32 +60,33 @@ const DetailHomeScreen = () => {
               <Text style={{fontSize: 13, marginLeft: 5}}>155 ratings</Text>
             </View>
           </View>
-            <View style={style.facility}>
-             { data && <Text style={style.facilityText}>{data.address}</Text> } 
-            </View>
-            {data && <Text style={{fontSize: 16}}>{data.location}</Text>}
-          {
-            data && <Text style={{marginTop: 20}}>{data.description}</Text>
-          }
-         
+          <View style={style.facility}>
+            {data && <Text style={style.facilityText}>{data.address}</Text>}
+          </View>
+          {data && <Text style={{fontSize: 16}}>{data.location}</Text>}
+          {data && <Text style={{marginTop: 20}}>{data.description}</Text>}
 
           <FlatList
             contentContainerStyle={{marginTop: 20}}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(_, key) => key.toString()}
-            data={interiors}
+            data={data && data.apartmentimages} // Updated data prop
             renderItem={({item}) => <InteriorCard interior={item} />}
           />
           <View style={style.footer}>
             <View>
-              {
-                data &&  <Text
-                style={{color: COLORS.blue, fontWeight: 'bold', fontSize: 18}}>
-                ${data.price}
-              </Text>
-              }
-             
+              {data && (
+                <Text
+                  style={{
+                    color: COLORS.blue,
+                    fontWeight: 'bold',
+                    fontSize: 18,
+                  }}>
+                  ${data.price}
+                </Text>
+              )}
+
               <Text
                 style={{fontSize: 12, color: COLORS.grey, fontWeight: 'bold'}}>
                 Total Price
@@ -158,8 +150,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
   },
   detailsContainer: {flex: 1, paddingHorizontal: 20, marginTop: 40},
-  facility: {flexDirection: 'row',marginTop:10},
-  
+  facility: {flexDirection: 'row', marginTop: 10},
 });
 
 export default DetailHomeScreen;

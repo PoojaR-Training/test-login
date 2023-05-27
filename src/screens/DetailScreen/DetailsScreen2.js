@@ -28,7 +28,7 @@ const DetailsScreen2 = () => {
   }, []);
   const handleCard = id => {
     console.log(id);
-    navigation.navigate('DetailHome',{
+    navigation.navigate('DetailHome2',{
       id
     });
   };
@@ -63,7 +63,7 @@ const DetailsScreen2 = () => {
   };
   return (
     <SafeAreaView style={{backgroundColor: '#d5e0e8', flex: 1}}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}  style={{backgroundColor:"#9bbad1"}}>
         <FlatList
           snapToInterval={width - 20}
           contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}

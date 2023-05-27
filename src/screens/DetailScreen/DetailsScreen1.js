@@ -63,7 +63,7 @@ const DetailsScreen1 = () => {
   };
   return (
     <View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#9bbad1"}}>
         <View>
       
       <FlatList

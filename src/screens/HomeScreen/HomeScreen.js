@@ -11,15 +11,13 @@ import COLORS from '../../consts/colors';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import DetailsScreen1 from '../DetailScreen/DetailsScreen1';
 import DetailsScreen2 from '../DetailScreen/DetailsScreen2';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Tab = createMaterialTopTabNavigator();
 const HomeScreen = ({navigation}) => {
-  const token = AsyncStorage.getItem('token');
-  console.warn(token);
-  const [activeTab, setActiveTab] = useState('Home');
+ 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
-      <View style={{flex: 0.15}}>
+      <View style={{flex: 0.18}}>
         <View
           style={{
             flexDirection: 'row',
@@ -41,12 +39,12 @@ const HomeScreen = ({navigation}) => {
           borderTopLeftRadius: 20,
         }}>
         <Tab.Navigator
-          tabBarOptions={{
+          screenOptions={{
             labelStyle: {textTransform: 'none'},
             style: {fontSize: 5, backgroundColor: '#d5e0e8'},
           }}>
           <Tab.Screen
-            name="Home"
+            name="House"
             component={DetailsScreen1}
             options={{
               tabBarIcon: () => (

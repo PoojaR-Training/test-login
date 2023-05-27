@@ -9,7 +9,10 @@ import ForgetPasswordScreen from '../screens/ForgetPasswordScreen/ForgetPassword
 import NewPasswordScreen from '../screens/NewPasswordScren/NewPasswordScreen';
 import EmailConfirmScreen from '../screens/EmailConfirmScreen/EmailConfirm';
 import AddPropertyToRent from '../screens/AddPropertToRent/AddPropertyToRent';
-import DetailHomeScreen from '../screens/DetailHomeScreen/DetailHomeScreen';
+import DetailHomeScreen from '../screens/DetailHomeScreen/DetailHomeScreen1';
+import DetailHomeScreen2 from '../screens/DetailHomeScreen/DetailHomeScreen2';
+import DetailHomeScreen3 from '../screens/DetailHomeScreen/DetailHomeScreen3';
+import DetailHomeScreen4 from '../screens/DetailHomeScreen/DetailHomeScreen4';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLogin } from '../context/LoginProvider';
 
@@ -53,6 +56,7 @@ const HomeNavigator =()=>{
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Add" component={AddPropertyToRent} />
       <Stack.Screen name= "DetailHome" component={DetailHomeScreen} />
+      <Stack.Screen name="DetailHome2" component={DetailHomeScreen2} />
       </Stack.Navigator>
     </NavigationContainer>
   );
