@@ -25,8 +25,7 @@ const OnBoardScreen = () => {
 
   return (
     <View style={{flex: 1,backgroundColor:"#d5e0e8"}}>
-      <StatusBar translucent backgroundColor={COLORS.tranparent} />
-      <View style={{flex: 1.5, marginTop: 20}}>
+      <View style={{flex: 1.5, marginTop: 5}}>
         <ScrollView
           horizontal={true}
           pagingEnabled
@@ -96,7 +95,7 @@ const OnBoardScreen = () => {
           
           <Pressable onPress={() => navigation.navigate('SignIn')}>
             <View style={styles.btn}>
-              <Text style={{color: 'white'}}>Get Started</Text>
+              <Text style={{color: 'white', fontSize:18}}>Get Started</Text>
             </View>
           </Pressable>
         </View>
@@ -146,13 +145,13 @@ const styles = StyleSheet.create({
     height: 60,
     marginHorizontal: 10,
     backgroundColor: 'black',
-    borderRadius: 15,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 100,
   },
   title: {fontSize: 32, fontWeight: 'bold'},
-  textStyle: {fontSize: 16, color: COLORS.black},
+  textStyle: {fontSize: 18,},
 });
 
 export default OnBoardScreen;

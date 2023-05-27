@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -10,41 +10,58 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import houses from '../../consts/houses';
-//import Icon from 'react-native-vector-icons/MaterialIcons';
-import COLORS from '../../consts/colors'
+import {useRoute} from '@react-navigation/native';
+import COLORS from '../../consts/colors';
 const {width} = Dimensions.get('screen');
 const DetailHomeScreen = () => {
-  const image = '/Users/imac17/Documents/training/React-native/test/src/assets/house3.jpg'
-const title = 'Rent PG/Hostel'
-const location ='Small room in cozy DT Vancouver apartment! Toronto'
-const details= `This building is located in the Oliver area, withing walking distance of shops...`
-const interiors= [
+  const route = useRoute();
+  const [data, setData] = useState(null);
+  const itemId = route.params.id;
+  const interiors = [
     require('../../assets/interior1.jpg'),
     require('../../assets/interior2.jpg'),
-    require('../../assets/interior3.jpg'),]
+    require('../../assets/interior3.jpg'),
+  ];
+
+  let result;
+  const inter = [];
+  const getApiData = async () => {
+    result = await fetch(`http://192.168.200.136:8000/home/gethome/${itemId}`);
+    result = await result.json();
+    setData(result);
+  };
+{
+  data &&inter.push(data.homeimages)
+}  
+  
+  
+  useEffect(() => {
+    getApiData();
+  }, []);
+
   const InteriorCard = ({interior}) => {
     return <Image source={interior} style={style.interiorImage} />;
   };
 
   return (
-    <SafeAreaView style={{flex: 1, }}>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* House image */}
+        {data && (
+          <View style={style.backgroundImageContainer}>
+            <ImageBackground
+              style={style.backgroundImage}
+              source={{uri: data.coverimage}}></ImageBackground>
+          </View>
+        )}
 
-        <View style={style.backgroundImageContainer}>
-          <ImageBackground style={style.backgroundImage} source={{uri: image}}>
-          
-          </ImageBackground>
-
-        
-</View>
         <View style={style.detailsContainer}>
-          {/* Name and rating view container */}
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-              {title}
-            </Text>
+            {data && (
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+                {data.title}
+              </Text>
+            )}
+
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={style.ratingTag}>
                 <Text style={{color: COLORS.white}}>4.8</Text>
@@ -52,32 +69,15 @@ const interiors= [
               <Text style={{fontSize: 13, marginLeft: 5}}>155 ratings</Text>
             </View>
           </View>
-
-          {/* Location text */}
-          <Text style={{fontSize: 16,}}>
-            {location}
-          </Text>
-
-          {/* Facilities container */}
-          <View style={{flexDirection: 'row', marginTop: 20}}>
             <View style={style.facility}>
-              
-              <Text style={style.facilityText}>2</Text>
+             { data && <Text style={style.facilityText}>{data.address}</Text> } 
             </View>
-            <View style={style.facility}>
-           
-              <Text style={style.facilityText}>2</Text>
-            </View>
-            <View style={style.facility}>
-            
-              <Text style={style.facilityText}>100m area</Text>
-            </View>
-          </View>
-          <Text style={{marginTop: 20, }}>
-            {details}
-          </Text>
+            {data && <Text style={{fontSize: 16}}>{data.location}</Text>}
+          {
+            data && <Text style={{marginTop: 20}}>{data.description}</Text>
+          }
+         
 
-          {/* Interior list */}
           <FlatList
             contentContainerStyle={{marginTop: 20}}
             horizontal
@@ -86,14 +86,15 @@ const interiors= [
             data={interiors}
             renderItem={({item}) => <InteriorCard interior={item} />}
           />
-
-          {/* footer container */}
           <View style={style.footer}>
             <View>
-              <Text
+              {
+                data &&  <Text
                 style={{color: COLORS.blue, fontWeight: 'bold', fontSize: 18}}>
-                $1,500
+                ${data.price}
               </Text>
+              }
+             
               <Text
                 style={{fontSize: 12, color: COLORS.grey, fontWeight: 'bold'}}>
                 Total Price
@@ -124,7 +125,6 @@ const style = StyleSheet.create({
     overflow: 'hidden',
   },
 
- 
   ratingTag: {
     height: 30,
     width: 35,
@@ -158,8 +158,8 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
   },
   detailsContainer: {flex: 1, paddingHorizontal: 20, marginTop: 40},
-  facility: {flexDirection: 'row', marginRight: 15},
-  facilityText: {marginLeft: 5, },
+  facility: {flexDirection: 'row',marginTop:10},
+  
 });
 
 export default DetailHomeScreen;

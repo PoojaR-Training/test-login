@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  TouchableOpacity
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -14,7 +15,6 @@ import {useForm, Controller} from 'react-hook-form';
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
-
   const {
     control,
     handleSubmit,
@@ -24,6 +24,9 @@ const SignUpScreen = () => {
   const pwd= watch('password')
   const onSignUpPress =()=>{
 navigation.navigate('SignIn');
+  }
+  const onForget =()=>{
+    navigation.navigate('Forget');
   }
   const onSubmit = async data => {
     try {
@@ -58,7 +61,7 @@ navigation.navigate('SignIn');
 
   return (
     <View style={{flex:1}}>
-        <View style={{flex:0.35,backgroundColor:"#d5e0e8"}}>
+        <View style={{flex:0.25,backgroundColor:"#d5e0e8"}}>
         <Image
           source={{
             uri: 'https://cdn3.iconfinder.com/data/icons/rental-property-filloutline/64/BROKER-real_estate-broker-housin-price-marketing-64.png',
@@ -66,9 +69,9 @@ navigation.navigate('SignIn');
           style={styles.img}
         />
 </View>
-<View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
+<View style={{backgroundColor:"#9bbad1", flex:0.90,borderTopRightRadius:20, borderTopLeftRadius:20}}>
       <ScrollView>
-        <Text style={styles.txt}>Create an Account</Text>
+        <Text style={styles.txt}>Register</Text>
         <View>
           <Controller
             control={control}
@@ -171,8 +174,10 @@ navigation.navigate('SignIn');
             <Text style={styles.error}>{errors.confirmPassword.message}</Text>
           )}
             
-        <CustomButton onPress={handleSubmit(onSubmit)} txt="Register" types={`PRIMARY`}  />
-        <CustomButton txt="Forget Password?" types={`TERTIARY`} />
+            <TouchableOpacity style={styles.btncontainer} onPress={handleSubmit(onSignUpPress)}>
+            <Text style={styles.byntxt}>SIGN UP</Text>
+            </TouchableOpacity>
+        <CustomButton txt="Forget Password?" types={`TERTIARY`} onPress={onForget} />
         <CustomButton
           types={'TERTIARY'}
           txt="Do you already have an Account? Login"
@@ -188,7 +193,7 @@ navigation.navigate('SignIn');
 const styles = StyleSheet.create({
   container: {
     width: '90%',
-    height: 50,
+    height: 55,
     marginTop:10,
     marginBottom:10,
     marginLeft:20,
@@ -198,13 +203,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 5,
+    fontSize :15
   },
   txt: {
     fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 10,
     margin: 20,
-    color: '#042675',
+    marginBottom:10,
+    color: 'black',
   },
   text: {
     color: 'gray',
@@ -221,12 +229,30 @@ const styles = StyleSheet.create({
 
     },
     img: {
-      height: '40%',
+      height: '35%',
       width: '30%',
       marginTop: 50,
       marginLeft: 140,
       overflow: 'visible',
     },
+    byntxt:{
+      color: 'white',
+      fontSize: 17,
+      fontWeight: 'bold',
+      textAlign: 'center',
+  },
+  btncontainer:{
+    backgroundColor :"black",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 20,
+    marginRight: 20,
+    height: 60,
+    width: '90%',
+    borderRadius: 20,
+    padding: 5,
+  marginTop :20
+  },
 });
 
 export default SignUpScreen;

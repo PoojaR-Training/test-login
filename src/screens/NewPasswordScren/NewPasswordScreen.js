@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView,TextInput,Alert} from 'react-native';
+import {Text, View, StyleSheet, ScrollView,TextInput,Alert,Image,TouchableOpacity} from 'react-native';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
@@ -54,6 +54,7 @@ const NewPasswordScreen = () => {
 </View>
 <View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
       <ScrollView>
+        <View style={{marginTop:50}}>
         <Text style={styles.txt}>Reset Your Password</Text>
         <Controller
             control={control}
@@ -104,16 +105,17 @@ const NewPasswordScreen = () => {
           {errors.confirmPassword && (
             <Text style={styles.error}>{errors.confirmPassword.message}</Text>
           )}
-        <CustomButton
-          onPress={handleSubmit(onSendPress)}
-          txt="Submit"
-          types={`PRIMARY`}
-        />
+        <TouchableOpacity
+              style={styles.btncontainer}
+              onPress={handleSubmit(onSendPress)}>
+              <Text style={styles.byntxt}>SUBMIT</Text>
+            </TouchableOpacity>
         <CustomButton
           onPress={onSignInPress}
           txt="Back to Sign In "
           types={`TERTIARY`}
         />
+        </View>
       </ScrollView>
       </View>
     </View>
@@ -125,7 +127,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 20,
-    color: '#042675',
   },
   text: {
     color: 'gray',
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '90%',
-    height: 50,
+    height: 55,
     marginTop:10,
     marginBottom:10,
     marginLeft:20,
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 5,
+    fontSize :15
   },
  error: {
   color:'red',
@@ -160,6 +162,24 @@ img: {
   marginTop: 50,
   marginLeft: 140,
   overflow: 'visible',
+},
+byntxt: {
+  color: 'white',
+  fontSize: 17,
+  fontWeight: 'bold',
+  textAlign: 'center',
+},
+btncontainer: {
+  backgroundColor: 'black',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginLeft: 20,
+  marginRight: 20,
+  height: 60,
+  width: '90%',
+  borderRadius: 20,
+  padding: 5,
+  marginTop: 20,
 },
 });
 export default NewPasswordScreen;

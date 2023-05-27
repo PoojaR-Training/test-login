@@ -39,17 +39,12 @@ const style = StyleSheet.create({
     height: 50,
     width: '90%',
     borderRadius: 5,
-    padding: 5,
-    marginTop :10
+    padding: 4,
+    
   
   },
   container_PRIMARY: {
-    backgroundColor: '#3b72f3',
-  },
-  container_TERTIARY: {},
-  container_SECONDARY: {
-    borderColor: '#3b72f3',
-    borderWidth: 2,
+    backgroundColor: 'black',
   },
   txt: {
     color: 'white',

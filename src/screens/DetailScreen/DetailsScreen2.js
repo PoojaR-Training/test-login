@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  ImageBackground,
   SafeAreaView,
   View,
   Text,
@@ -10,21 +9,35 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-import houses from '../../consts/houses';
 import COLORS from '../../consts/colors';
 import {useNavigation} from '@react-navigation/native';
 const {width} = Dimensions.get('screen');
-const DetailsScreen = () => {
+const DetailsScreen2 = () => {
   const navigation = useNavigation();
+  const [data, setData] = useState([]);
+  const getApiData = async () => {
+    let result = await fetch('http://192.168.200.136:8000/apartment/getapartment');
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getApiData();
+  }, []);
+  const handleCard = id => {
+    console.log(id);
+    navigation.navigate('DetailHome',{
+      id
+    });
+  };
   const Card = ({houses}) => {
     return (
-        <View style={style.card}>
-          <TouchableOpacity onPress={()=>navigation.navigate('DetailHome')}>
-          <Image source={houses.image} style={style.cardImage} />
+      <View style={style.card}>
+        <TouchableOpacity onPress={() => handleCard(houses._id)}>
+          <Image source={{uri: houses.coverimage}} style={style.cardImage} />
           <View style={{marginTop: 10}}>
-  
             <View
               style={{
                 flexDirection: 'row',
@@ -36,57 +49,35 @@ const DetailsScreen = () => {
               </Text>
               <Text
                 style={{fontWeight: 'bold', color: COLORS.blue, fontSize: 16}}>
-                $1,500
+                ${houses.price}
               </Text>
             </View>
-
- 
-
-            <Text style={{fontSize: 14, marginTop: 5}}>
-              {houses.location}
-            </Text>
+            <Text style={{fontSize: 14, marginTop: 5}}>{houses.location}</Text>
             <View style={{marginTop: 10, flexDirection: 'row'}}>
-              <View style={style.facility}>
-                <Text style={style.facilityText}>2</Text>
-              </View>
-              <View style={style.facility}>
-               
-                <Text style={style.facilityText}>2</Text>
-              </View>
-              <View style={style.facility}>
-                
-                <Text style={style.facilityText}>100m</Text>
-              </View>
+              <Text>{houses.address}</Text>
             </View>
           </View>
-          </TouchableOpacity>
-          
-        </View>
-        
-        
-   
+        </TouchableOpacity>
+      </View>
     );
   };
   return (
-    <SafeAreaView style={{backgroundColor: "#d5e0e8", flex: 1}}>
+    <SafeAreaView style={{backgroundColor: '#d5e0e8', flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-   
         <FlatList
           snapToInterval={width - 20}
           contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
-         
-          data={houses}
-          renderItem={({item}) => <Card houses={item}/>
-        }
+          data={data}
+          renderItem={({item}) => (
+            <Card houses={item} keyExtractor={item => item._id} />
+          )}
         />
-       
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const style = StyleSheet.create({
- 
   card: {
     height: 320,
     backgroundColor: COLORS.white,
@@ -95,15 +86,14 @@ const style = StyleSheet.create({
     marginRight: 20,
     padding: 15,
     borderRadius: 20,
-    marginBottom:15
+    marginBottom: 15,
   },
   cardImage: {
     width: '100%',
     height: 190,
     borderRadius: 15,
   },
-  facility: {flexDirection: 'row', marginRight: 15},
-  facilityText: {marginLeft: 5},
+  facility: {flexDirection: 'row'},
 });
 
-export default DetailsScreen;
+export default DetailsScreen2;

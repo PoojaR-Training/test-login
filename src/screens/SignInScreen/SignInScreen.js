@@ -8,8 +8,9 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  SafeAreaView,
+  TouchableOpacity
 } from 'react-native';
-import Logo from '../../../assest/images/logo.png';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {useForm, Controller} from 'react-hook-form';
@@ -77,8 +78,8 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 0.35, backgroundColor: '#d5e0e8'}}>
+    <SafeAreaView style={{flex: 1,backgroundColor: '#d5e0e8'}}>
+      <View style={{flex: 0.35, }}>
         <Image
           source={{
             uri: 'https://cdn3.iconfinder.com/data/icons/rental-property-filloutline/64/BROKER-real_estate-broker-housin-price-marketing-64.png',
@@ -94,7 +95,8 @@ const SignInScreen = () => {
           borderTopLeftRadius: 20,
         }}>
         <ScrollView>
-          <Text style={styles.txt}>Login Account</Text>
+          <View style={styles.item}>
+          <Text style={styles.txt}>Welcome Back</Text>
           <Controller
             control={control}
             rules={{
@@ -130,6 +132,7 @@ const SignInScreen = () => {
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
+               
               />
             )}
             name="password"
@@ -137,40 +140,42 @@ const SignInScreen = () => {
           {errors.password && (
             <Text style={styles.error}>{errors.password.message}</Text>
           )}
-          <CustomButton
-            onPress={handleSubmit(onSignInPress)}
-            txt="Sign In"
-            types={`PRIMARY`}
-            style={styles.container}
-          />
-          <CustomButton
-            txt="Forget Password?"
-            types={`TERTIARY`}
-            onPress={onForgetPress}
-          />
+          
+
+            <TouchableOpacity style={styles.btncontainer} onPress={handleSubmit(onSignInPress)}>
+            <Text style={styles.byntxt}>SIGN IN</Text>
+            </TouchableOpacity>
+         
+        
           <CustomButton
             onPress={onSignUpPress}
             types={'TERTIARY'}
             txt="Don't have a Account? SIGN UP"
           />
+            <CustomButton
+            txt="Forget Password?"
+            types={`TERTIARY`}
+            onPress={onForgetPress}
+          />
+         </View>
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   txt: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 20,
-    color: '#042675',
+    color: 'black',
   },
   container: {
     width: '90%',
-    height: 50,
+    height: 55,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 15,
     marginLeft: 20,
     marginRight: 20,
     paddingHorizontal: 10,
@@ -178,18 +183,42 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 5,
+    fontSize :15
   },
   error: {
     color: 'red',
     marginLeft: 8,
   },
   img: {
-    height: '40%',
+    height: '70%',
     width: '30%',
-    marginTop: 50,
-    marginLeft: 140,
+    marginTop: 20,
+    marginLeft: 155,
     overflow: 'visible',
   },
+
+  byntxt:{
+      color: 'white',
+      fontSize: 17,
+      fontWeight: 'bold',
+      textAlign: 'center',
+  },
+  btncontainer:{
+    backgroundColor :"black",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 20,
+    marginRight: 20,
+    height: 60,
+    width: '90%',
+    borderRadius: 20,
+    padding: 5,
+    marginTop: 20,
+  },
+  item:{
+    marginTop: 50,
+  },
+  
 });
 
 export default SignInScreen;
