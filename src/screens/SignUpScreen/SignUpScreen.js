@@ -10,7 +10,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from '../../components/CustomButton';
 import {useForm, Controller} from 'react-hook-form';
 
 const SignUpScreen = () => {

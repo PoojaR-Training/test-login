@@ -12,7 +12,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from '../../components/CustomButton';
 import {useForm, Controller} from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../../context/LoginProvider';

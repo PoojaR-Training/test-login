@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, ScrollView,TextInput,Image,TouchableOpacity} from 'react-native';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from '../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import { Controller,useForm } from 'react-hook-form';
 import {useRoute} from '@react-navigation/native';
