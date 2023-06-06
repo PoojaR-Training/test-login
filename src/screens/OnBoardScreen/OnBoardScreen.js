@@ -9,95 +9,91 @@ import {
   Animated,
   useWindowDimensions,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
+
 import COLORS from '../../consts/colors';
 import {useNavigation} from '@react-navigation/native';
+import Swiper from 'react-native-swiper';
 
-const images = new Array(6).fill(
-  '/Users/imac17/Documents/training/React-native/test/src/assets/onboardImage.jpg',
-);
-
+const slides = [
+  {
+    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782343/onBoard/onboardImage_kmihqf.jpg',
+  },
+  {
+    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782302/onBoard/onboard2_pi2mwq.webp'},
+  {
+    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782721/onBoard/white-and-brown-concrete-building_swf0lr.jpg',
+  },
+  {
+    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782668/onBoard/exterior-home-walkway-home-exterior_slgkvm.jpg',
+  },
+];
 const OnBoardScreen = () => {
   const navigation = useNavigation();
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const {width: windowWidth} = useWindowDimensions();
-
+  //const slides=['/Users/imac17/Documents/training/React-native/test/src/assets/onboardImage.jpg'];
   return (
-    <View style={{flex: 1,backgroundColor:"#d5e0e8"}}>
+    <View style={{flex: 1, backgroundColor: '#d5e0e8'}}>
       <View style={{flex: 1.5, marginTop: 5}}>
-        <ScrollView
-          horizontal={true}
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: {
-                  x: scrollX,
-                },
-              },
-            },
-          ],[])}
-          scrollEventThrottle={1}>
-          {images.map((image, imageIndex) => {
-            return (
-              <View style={{width: windowWidth, height: 150}} key={imageIndex}>
-                <Image source={{uri: image}} style={styles.card} />
+      
+          <Swiper
+            style={styles.wrapper}
+            autoplay={true}
+            dotStyle={styles.dot}
+            activeDotStyle={styles.activeDot}>
+            {slides.map((slide, index) => (
+              <View style={styles.slide} key={index}>
+                <View style={styles.imageContainer}>
+                  <Image style={styles.image} source={{uri: slide.image}} />
+                </View>
+                <View style={styles.textContainer}>
+                  <Text style={styles.textOverlay}>{slide.text}</Text>
+                </View>
               </View>
-            );
-          })}
-        </ScrollView>
-
-        <View style={styles.indicatorContainer}>
-          {images.map((image, imageIndex) => {
-            const width = scrollX.interpolate({
-              inputRange: [
-                windowWidth * (imageIndex - 1),
-                windowWidth * imageIndex,
-                windowWidth * (imageIndex + 1),
-              ],
-              outputRange: [8, 16, 8],
-              extrapolate: 'clamp',
-            });
-            return (
-              <Animated.View
-                key={imageIndex}
-                style={[styles.normalDot, {width}]}
-              />
-            );
-          })}
-        </View>
+            ))}
+          </Swiper>
+       
       </View>
       <View style={{flex: 1}}>
         <View style={{paddingHorizontal: 20}}>
-        
           <View>
             <Text style={styles.title}>Find your</Text>
             <Text style={styles.title}>sweet home</Text>
           </View>
 
-     
           <View style={{marginTop: 10}}>
             <Text style={styles.textStyle}>
-              Schedule visits in just a few clicks
+              Book Your 
             </Text>
-            <Text style={styles.textStyle}>visit in just a few clicks</Text>
+            <Text style={styles.textStyle}>Property in just a few clicks</Text>
           </View>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            paddingBottom: 40,
-          }}>
-          
-          <Pressable onPress={() => navigation.navigate('SignIn')}>
+       
+          {/*<Pressable onPress={() => navigation.navigate('SignIn')}>
             <View style={styles.btn}>
-              <Text style={{color: 'white', fontSize:17}}>Get Started</Text>
+              <Text style={{color: 'white', fontSize: 17}}>Get Started</Text>
             </View>
-          </Pressable>
+        </Pressable>*/}
+        
+        <View style={{ flexDirection: 'row',  paddingVertical:15,marginLeft:20,top:50 }}>
+          <TouchableOpacity
+          onPress={ () => navigation.navigate('SignIn') }
+            style={{ backgroundColor: 'black', padding: 10, width:150, borderRadius: 30, marginHorizontal: 15 }}
+          >
+            <Text style={{ textAlign: 'center', color: '#FFF', fontSize: 18 }}>Login</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+           onPress={ () => navigation.navigate('SignUp') }
+            style={{ backgroundColor: '#FFF', padding: 10, width:150, borderRadius: 30, marginHorizontal: 2, borderWidth: 1, borderColor: '#0d47a1' }}
+          >
+            <Text style={{ textAlign: 'center', color: '#0d47a1', fontSize: 18 }}>Sign Up</Text>
+          </TouchableOpacity>
+          
         </View>
       </View>
     </View>
@@ -151,7 +147,19 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   title: {fontSize: 32, fontWeight: 'bold'},
-  textStyle: {fontSize: 18,},
+  textStyle: {fontSize: 18},
+  image:{
+height: '95%',
+width: '100%',
+marginBottom: -15
+  },
+  slide:{
+    flex:1
+  },
+  imageContainer:{
+alignContent: 'center',
+alignItems: 'center',
+  }
 });
 
 export default OnBoardScreen;

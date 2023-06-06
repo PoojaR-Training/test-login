@@ -12,33 +12,33 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {SvgUri} from 'react-native-svg';
 import COLORS from '../../consts/colors';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width} = Dimensions.get('screen');
-const DetailsScreen1 = ({activeCategory}) => {
-  console.log(activeCategory);
+const SearchScreen = ({search, activeCategory}) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  //const [like, setLike]= useState();
-  let API = 'http://192.168.200.136:8000/property/getproperty';
-  if (activeCategory == 0) {
-    API = 'http://192.168.200.136:8000/property/getproperty';
-  } else if (activeCategory == 1) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/house';
-  } else if (activeCategory == 2) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/apartment';
-  } else if (activeCategory == 3) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/farm';
-  } else if (activeCategory == 4) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/pg';
-  } else {
-    API = 'http://192.168.200.136:8000/property/getproperty';
-  }
-  const getApiData = async () => {
-    const token = await AsyncStorage.getItem('token');
+ 
+  let API = `http://192.168.200.136:8000/property/getpropertybycity/${search}`;
 
+    if (activeCategory == 1) {
+      API = `http://192.168.200.136:8000/property/getpropertybycitytype/house/${search}`;
+    }
+    if (activeCategory == 2) {
+      API = `http://192.168.200.136:8000/property/getpropertybycitytype/apartment/${search}`;
+    }
+    if (activeCategory == 3) {
+      API = `http://192.168.200.136:8000/property/getpropertybycitytype/farm/${search}`;
+    }
+    if (activeCategory == 4) {
+      API = `http://192.168.200.136:8000/property/getpropertybycitytype/pg/${search}`;
+    }
+
+  const getApiData = async (search) => {
+    console.log(search);
+    const token = await AsyncStorage.getItem('token');
+    console.log(API);
     let result = await fetch(API, {
       method: 'GET',
       headers: {
@@ -47,45 +47,18 @@ const DetailsScreen1 = ({activeCategory}) => {
       },
     });
     result = await result.json();
-
+    console.log(result);
     setData(result);
   };
   useEffect(() => {
-    getApiData();
+    getApiData(search);
   }, [activeCategory]);
   const handleCard = id => {
     navigation.navigate('DetailHome', {
       id,
     });
   };
-  const likeProperty = async (id) => {
-    try {
-      console.log("vfv",id);
-      console.log(data[0].like);
-     const like = data[0].like;
-      const token = await AsyncStorage.getItem('token');
-      
-      const response = await fetch(
-        `http://192.168.200.136:8000/property/updatelike/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({ like: !like }),
-        }
-      );
-      if (response.ok) {
-        console.log('Property like updated');
-        getApiData();
-      } else {
-        console.log('Failed to update property like');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
   const Card = ({houses}) => {
     return (
       <View style={style.card}>
@@ -127,15 +100,18 @@ const DetailsScreen1 = ({activeCategory}) => {
               <Text style={{fontSize: 16, marginTop: 5}}>
                 {houses.location}
               </Text>
-              <TouchableOpacity onPress={() => likeProperty(houses._id)}>
+              <TouchableOpacity >
                 <Image
                   style={{height: 30, width: 30}}
-                  source={houses.like==true ? {
-                    uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png',
+                  source={
+                    houses.like == true
+                      ? {
+                          uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png',
+                        }
+                      : {
+                          uri: 'https://cdn-icons-png.flaticon.com/128/1077/1077035.png',
+                        }
                   }
-                : {
-                    uri:'https://cdn-icons-png.flaticon.com/128/1077/1077035.png' ,
-                  }}
                 />
               </TouchableOpacity>
             </View>
@@ -149,7 +125,7 @@ const DetailsScreen1 = ({activeCategory}) => {
     );
   };
   return (
-    <View style={{backgroundColor: '#dce3e8',flex:1}}>
+    <View style={{backgroundColor: '#dce3e8', flex: 1}}>
       <FlatList
         snapToInterval={width - 20}
         contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
@@ -203,4 +179,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default DetailsScreen1;
+export default SearchScreen;

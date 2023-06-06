@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView,TextInput,Image,TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, ScrollView,TextInput,Image,TouchableOpacity,SafeAreaView} from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import { Controller,useForm } from 'react-hook-form';
@@ -23,19 +23,12 @@ const EmailConfirm = () => {
     navigation.navigate('SignIn');
   };
   return (
-    <View style={{flex:1}}>
-    <View style={{flex:0.35,backgroundColor:"#d5e0e8"}}>
-    <Image
-          source={{
-            uri: 'https://cdn3.iconfinder.com/data/icons/rental-property-filloutline/64/BROKER-real_estate-broker-housin-price-marketing-64.png',
-          }}
-          style={styles.img}
-        />
-</View>
-<View style={{backgroundColor:"#9bbad1", flex:1,borderTopRightRadius:20, borderTopLeftRadius:20}}>
-      <ScrollView>
-        <View style={{marginTop:70}}>
-        <Text style={styles.txt}>Confirm Email</Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
+    <View style={styles.container}>
+      <View style={styles.view1}>
+        <Text style={styles.heading1}>Confirm Email </Text>
+      </View>
+      <View style={styles.view2}>
         <Controller
             control={control}
             rules={{
@@ -45,7 +38,7 @@ const EmailConfirm = () => {
               <TextInput
                 placeholder="Enter Secure Code"
                 name="code"
-                style={styles.container}
+                style={styles.email}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -58,82 +51,85 @@ const EmailConfirm = () => {
           )}
     
   
-    <TouchableOpacity style={styles.btncontainer} onPress={handleSubmit(onResendCodePress)}>
-            <Text style={styles.byntxt}>SUBMIT</Text>
-            </TouchableOpacity>
+    <TouchableOpacity
+            style={styles.buttonstyle}
+            onPress={handleSubmit(onResendCodePress)}>
+            <Text style={styles.signintxt}>Submit</Text>
+          </TouchableOpacity>
        
        
-        <CustomButton
-          onPress={onSignInPress}
-          txt="Back to Sign In "
-          types={`TERTIARY`}
-        />
-        </View>
-      </ScrollView>
-    </View>
-    </View>
+          <TouchableOpacity onPress={onSignInPress}>
+            <Text style={styles.fogPw}>Back to SignIn</Text>
+          </TouchableOpacity>
+          </View>
+        
+      </View>
+      </SafeAreaView>
+   
   );
 };
 const styles = StyleSheet.create({
-  txt: {
-    fontSize: 25,
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+    paddingVertical: '11%',
+    paddingHorizontal: '4%',
+  },
+  view1: {
+    flex: 1,
+    top: '12%',
+  },
+  view2: {
+    flex: 2,
+    bottom: '7%',
+  },
+  heading1: {
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    margin: 20,
-   
   },
-  text: {
-    color: 'gray',
-    marginVertical: 10,
-    marginLeft: 10,
+  para1: {
+    fontSize: 18,
+    opacity: 0.7,
+    textAlign: 'center',
+    paddingHorizontal: '20%',
+    top: 3,
+    backgroundColor:'red'
   },
-  link: {
-    color: '#FDB075',
-    textDecorationLine: 'underline',
-  },
-  container: {
-    width: '90%',
+  email: {
     height: 55,
-    marginTop:10,
-    marginBottom:10,
-    marginLeft:20,
-    marginRight:20,
-    paddingHorizontal: 10,
+    margin: 12,
+    borderWidth: 0,
+    padding: 10,
+    borderRadius: 8,
     backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    fontSize :15
+  
   },
- error: {
-  color:'red',
-  marginLeft: 8,
+  fogPw: {
+    textAlign: 'right',
+    alignSelf:'center',
+    top: 30,
+    color: 'grey',
+    fontWeight:'bold',
+  },
+  buttonstyle: {
+    borderRadius: 10,
+    height: 55,
+    margin: 12,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 20,
+  },
 
-},
-img: {
-  height: '40%',
-  width: '30%',
-  marginTop: 50,
-  marginLeft: 140,
-  overflow: 'visible',
-},
-byntxt:{
-  color: 'white',
-  fontSize: 17,
-  fontWeight: 'bold',
-  textAlign: 'center',
-},
-btncontainer:{
-backgroundColor :"black",
-justifyContent: 'center',
-alignItems: 'center',
-marginLeft: 20,
-marginRight: 20,
-height: 60,
-width: '90%',
-borderRadius: 20,
-padding: 5,
-marginTop: 20,
-},
+  signintxt: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  error: {
+    color: 'red',
+    marginLeft: 12,
+  },
 });
 export default EmailConfirm;

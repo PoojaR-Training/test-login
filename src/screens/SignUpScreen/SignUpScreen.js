@@ -7,7 +7,8 @@ import {
   ScrollView,
   TextInput,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton';
@@ -60,19 +61,12 @@ navigation.navigate('SignIn');
   };
 
   return (
-    <View style={{flex:1}}>
-        <View style={{flex:0.25,backgroundColor:"#d5e0e8"}}>
-        <Image
-          source={{
-            uri: 'https://cdn3.iconfinder.com/data/icons/rental-property-filloutline/64/BROKER-real_estate-broker-housin-price-marketing-64.png',
-          }}
-          style={styles.img}
-        />
-</View>
-<View style={{backgroundColor:"#9bbad1", flex:0.90,borderTopRightRadius:20, borderTopLeftRadius:20}}>
-      <ScrollView>
-        <Text style={styles.txt}>Register</Text>
-        <View>
+   <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
+    <View style={styles.container}>
+      <View style={styles.view1}>
+        <Text style={styles.heading1}>Registration</Text>
+      </View>
+      <View style={styles.view2}>
           <Controller
             control={control}
             rules={{
@@ -86,7 +80,7 @@ navigation.navigate('SignIn');
               <TextInput
                 placeholder="Username"
                 name="username"
-                style={styles.container}
+                style={styles.txtbox}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -111,7 +105,7 @@ navigation.navigate('SignIn');
               <TextInput
                 placeholder="Email"
                 name="email"
-                style={styles.container}
+                style={styles.txtbox}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -138,7 +132,7 @@ navigation.navigate('SignIn');
                 placeholder="Password"
                 secureTextEntry={true}
                 name="password"
-                style={styles.container}
+                style={styles.txtbox}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -162,7 +156,7 @@ navigation.navigate('SignIn');
                 placeholder="Confirm Password"
                 secureTextEntry={true}
                 name="confirmPassword"
-                style={styles.container}
+                style={styles.txtbox}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -174,85 +168,118 @@ navigation.navigate('SignIn');
             <Text style={styles.error}>{errors.confirmPassword.message}</Text>
           )}
             
-            <TouchableOpacity style={styles.btncontainer} onPress={handleSubmit(onSignUpPress)}>
-            <Text style={styles.byntxt}>SIGN UP</Text>
-            </TouchableOpacity>
-        <CustomButton txt="Forget Password?" types={`TERTIARY`} onPress={onForget} />
-        <CustomButton
-          types={'TERTIARY'}
-          txt="Do you already have an Account? Login"
-          onPress={onSignUpPress}
-        />
+            <Controller
+            control={control}
+            rules={{
+              required: 'Contact is required',
+              pattern: {
+                value:
+                  /^\d+$/,
+                message: 'Invalid contact number',
+              },
+              
+            }}
 
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                placeholder="Contact Number"
+                name="contact"
+                style={styles.txtbox}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                maxLength={10}
+              />
+            )}
+            name="contact"
+          />
+            {errors.contact && (
+            <Text style={styles.error}>{errors.contact.message}</Text>
+          )}
+            <TouchableOpacity
+            style={styles.buttonstyle}
+            onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.signintxt}>Sign Up</Text>
+          </TouchableOpacity>
+            </View>
+            <View style={{bottom: '-1%'}}>
+          <TouchableOpacity onPress={onSignUpPress}>
+          <Text style={{textAlign: 'center'}}>
+            Already have a account? <Text style={{color: '#1580FF'}}>Login here</Text>{' '}
+          </Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-      </View>
-    </View>
+        
+       </View>
+        </SafeAreaView>
+
   );
 };
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
-    height: 55,
-    marginTop:10,
-    marginBottom:10,
-    marginLeft:20,
-    marginRight:20,
-    paddingHorizontal: 10,
-    backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    fontSize :15
+    flexDirection: 'column',
+    flex: 1,
+    paddingVertical: '5%',
+    paddingHorizontal: '4%',
+  
   },
-  txt: {
-    fontSize: 25,
+  view1: {
+    flex: 1,
+  
+  },
+  view2: {
+    flex: 2,
+   
+    top: '-25%',
+  },
+  heading1: {
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10,
-    margin: 20,
-    marginBottom:10,
-    color: 'black',
   },
-  text: {
-    color: 'gray',
-    marginVertical: 10,
-    marginLeft: 10,
+  para1: {
+    fontSize: 18,
+    opacity: 0.7,
+    textAlign: 'center',
+    paddingHorizontal: '20%',
+    top: 3,
+    backgroundColor:'red'
   },
-  link: {
-    color: '#FDB075',
-    textDecorationLine: 'underline',
+ txtbox: {
+    height: 55,
+    margin: 12,
+    borderWidth: 0,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: 'white',
+  
   },
-  error: {
-      color:'red',
-      marginLeft: 8,
-
-    },
-    img: {
-      height: '35%',
-      width: '30%',
-      marginTop: 50,
-      marginLeft: 140,
-      overflow: 'visible',
-    },
-    byntxt:{
-      color: 'white',
-      fontSize: 17,
-      fontWeight: 'bold',
-      textAlign: 'center',
+  fogPw: {
+    textAlign: 'right',
+    right: 14,
+    top: 2,
+    color: 'grey',
   },
-  btncontainer:{
-    backgroundColor :"black",
+  buttonstyle: {
+    borderRadius: 10,
+    height: 50,
+    margin: 12,
+    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 20,
-    height: 60,
-    width: '90%',
-    borderRadius: 20,
-    padding: 5,
-  marginTop :20
+   // top: 8,
+  },
+
+  signintxt: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  error: {
+    color: 'red',
+    marginLeft: 12,
   },
 });
+
 
 export default SignUpScreen;

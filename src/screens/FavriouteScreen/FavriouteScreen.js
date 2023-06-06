@@ -1,67 +1,51 @@
 import React, {useState, useEffect} from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   StyleSheet,
   FlatList,
   Image,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  ImageBackground,
   TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+  SafeAreaView,
 } from 'react-native';
-import {SvgUri} from 'react-native-svg';
-import COLORS from '../../consts/colors';
-import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width} = Dimensions.get('screen');
-const DetailsScreen1 = ({activeCategory}) => {
-  console.log(activeCategory);
+import {useNavigation} from '@react-navigation/native';
+import COLORS from '../../consts/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const FavoriteScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  //const [like, setLike]= useState();
-  let API = 'http://192.168.200.136:8000/property/getproperty';
-  if (activeCategory == 0) {
-    API = 'http://192.168.200.136:8000/property/getproperty';
-  } else if (activeCategory == 1) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/house';
-  } else if (activeCategory == 2) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/apartment';
-  } else if (activeCategory == 3) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/farm';
-  } else if (activeCategory == 4) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/pg';
-  } else {
-    API = 'http://192.168.200.136:8000/property/getproperty';
-  }
+
+  const handleCard = id => {
+    navigation.navigate('DetailHome', {
+      id,
+    });
+  };
   const getApiData = async () => {
     const token = await AsyncStorage.getItem('token');
 
-    let result = await fetch(API, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
+    let result = await fetch(
+      'http://192.168.200.136:8000/property/getpropertybylike',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
       },
-    });
+    );
     result = await result.json();
 
     setData(result);
   };
   useEffect(() => {
     getApiData();
-  }, [activeCategory]);
-  const handleCard = id => {
-    navigation.navigate('DetailHome', {
-      id,
-    });
-  };
+  },[]);
   const likeProperty = async (id) => {
     try {
-      console.log("vfv",id);
-      console.log(data[0].like);
+     
      const like = data[0].like;
       const token = await AsyncStorage.getItem('token');
       
@@ -86,6 +70,7 @@ const DetailsScreen1 = ({activeCategory}) => {
       console.log(error);
     }
   };
+
   const Card = ({houses}) => {
     return (
       <View style={style.card}>
@@ -123,6 +108,7 @@ const DetailsScreen1 = ({activeCategory}) => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginTop: 10,
+               
               }}>
               <Text style={{fontSize: 16, marginTop: 5}}>
                 {houses.location}
@@ -149,21 +135,34 @@ const DetailsScreen1 = ({activeCategory}) => {
     );
   };
   return (
-    <View style={{backgroundColor: '#dce3e8',flex:1}}>
-      <FlatList
-        snapToInterval={width - 20}
-        contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
-        data={data}
-        renderItem={({item}) => <Card houses={item} />}
-      />
-    </View>
+    <SafeAreaView style={{flex: 1,backgroundColor: '#9bbad1'}}>
+      <View
+        style={{ backgroundColor: '#9bbad1'}}>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: 'bold',
+           margin:10
+          }}>
+          WishLists
+        </Text>
+      </View>
+      <View style={{backgroundColor: '#dce3e8', flex: 1}}>
+        <FlatList
+          snapToInterval={width - 20}
+          contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
+          data={data}
+          renderItem={({item}) => <Card houses={item} />}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const style = StyleSheet.create({
   card: {
     height: 330,
-    backgroundColor: COLORS.white,
+    backgroundColor: 'white',
     elevation: 10,
     width: width - 40,
     marginRight: 20,
@@ -202,5 +201,4 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
-
-export default DetailsScreen1;
+export default FavoriteScreen;

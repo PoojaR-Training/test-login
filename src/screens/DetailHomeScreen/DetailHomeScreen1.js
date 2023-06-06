@@ -14,19 +14,25 @@ import {
   Button,
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import COLORS from '../../consts/colors';
 const {width} = Dimensions.get('screen');
 import {useNavigation} from '@react-navigation/native';
 const DetailHomeScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
   const [data, setData] = useState(null);
   const id = route.params.id;
   let result;
   const getApiData = async () => {
-    result = await fetch(`http://192.168.200.136:8000/home/gethome/${id}`);
+    const token =await AsyncStorage.getItem('token');
+    result = await fetch(`http://192.168.200.136:8000/property/getproperty/${id}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+      }
+    })
     result = await result.json();
     setData(result);
   };
@@ -37,34 +43,60 @@ const DetailHomeScreen = () => {
     getApiData();
   }, []);
 
-  const InteriorCard = ({interior}) => {
+//  aboutlen.substring(0, 500);
+  const InteriorCard = ({ interior }) => {
+    const [modalVisible, setModalVisible] = useState(false);
+  
+    const openModal = () => {
+      setModalVisible(true);
+    };
+  
+    const closeModal = () => {
+      setModalVisible(false);
+    };
+    let aboutlen= (data&&data.description);
+console.log(aboutlen.substring(0,100));
     return (
       <View>
-      <View>
-      <Modal visible={modalVisible}>
-      <View style={style.centerView}>
-          <View style={style.modalView}>
-          
-   <Text>modal</Text>
-        
-        <Button
-          title="Close"
-          onPress={() => setModalVisible(!modalVisible)}
-        />
-        </View>
-        </View>
-      </Modal>
-    </View>
-      <TouchableOpacity onPress={()=>setModalVisible(!modalVisible)} >
-        <Image source={{uri: interior}} style={style.interiorImage} />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={openModal}>
+          <Image source={{ uri: interior }} style={style.interiorImage} />
+        </TouchableOpacity>
+        <Modal visible={modalVisible} onRequestClose={closeModal}>
+          <View style={style.centerView}>
+            <View style={style.modalView}>
+              <Image
+                source={{ uri: interior }}
+                style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+              />
+              <Button title="Close" onPress={closeModal} />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={{flex: 1,backgroundColor: '#d5e0e8'}}>
+    <SafeAreaView style={{flex: 1,backgroundColor:'#9bbad1' }}>
+       <View style={{flex: 0.10,flexDirection:'row',alignItems:'center'}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+      <Image
+              style={{height: 35, width: 35}}
+              source={require('../../assets/left-arrow.png')}
+            />
+            </TouchableOpacity>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: 'bold',
+           
+          }}>
+          Property Details
+        </Text>
+      </View>
+      <View style={{flex:1,backgroundColor:'#dce3e8'}}>
       <ScrollView showsVerticalScrollIndicator={false}>
+     
         {data && (
           <View style={style.backgroundImageContainer}>
             <ImageBackground
@@ -72,16 +104,7 @@ const DetailHomeScreen = () => {
               source={{uri: data.coverimage}}
               resizeMode="cover"
             />
-            <View style={style.backIconContainer}>
-              <TouchableOpacity
-                style={style.backButton}
-                onPress={() => navigation.navigate('Home')}>
-                <Image
-                  style={style.backIcon}
-                  source={require('../../assets/back-button.png')}
-                />
-              </TouchableOpacity>
-            </View>
+            
           </View>
         )}
 
@@ -126,7 +149,7 @@ const DetailHomeScreen = () => {
               }}>
               About
             </Text>
-            {data && <Text style={{fontSize: 16, maxHeight:90, textAlign:'justify'}}>{data.description}</Text>}
+            {data && <Text style={{fontSize: 16, maxHeight:90, textAlign:'justify'}}>{data&&data.description.substring(0,500)}</Text>}
             <TouchableOpacity onPress={readmore}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={style.detailbtn}>Read More</Text>
@@ -142,7 +165,7 @@ const DetailHomeScreen = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(_, key) => key.toString()}
-            data={data && data.homeimages}
+            data={data && data.propertyimages}
             renderItem={({item}) => <InteriorCard interior={item} />}
           />
 
@@ -166,8 +189,9 @@ const DetailHomeScreen = () => {
             </View>
           </View>
         </View>
+     
       </ScrollView>
-      
+      </View>
     </SafeAreaView>
   );
 };
@@ -251,13 +275,12 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   modalView :{
-    backgroundColor : "pink",
     padding: 10,
     margin : 10,
-    width :"50%",
+    width :"100%",
     borderRadius: 20,
     alignItems: 'center',
-    height :"50%",
+    height :"40%",
     justifyContent: 'center',
   },
 });

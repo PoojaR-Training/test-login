@@ -98,7 +98,97 @@ const AC = () => {
       </View>
     );
   };
-
+  const Kitchen = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/kitchen.png')} />
+        </View>
+        <Text style={style.txt}>Kitchen</Text>
+      </View>
+    );
+  };
+  const Meal= () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/food.png')} />
+        </View>
+        <Text style={style.txt}>2 Time Meal</Text>
+      </View>
+    );
+  };
+  const Elevator = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/elevator.png')} />
+        </View>
+        <Text style={style.txt}>Elevator</Text>
+      </View>
+    );
+  };
+  const Laundry = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/fashion.png')} />
+        </View>
+        <Text style={style.txt}>Laundry</Text>
+      </View>
+    );
+  };
+  const Housekeeper = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/housekeeper.png')} />
+        </View>
+        <Text style={style.txt}>Housekeeper</Text>
+      </View>
+    );
+  };
+  const Seaview = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/sea.png')} />
+        </View>
+        <Text style={style.txt}>Seaview</Text>
+      </View>
+    );
+  };
+  const Breakfast = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/coffee.png')} />
+        </View>
+        <Text style={style.txt}>Breakfast</Text>
+      </View>
+    );
+  };
+  const Parking = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/parking.png')} />
+        </View>
+        <Text style={style.txt}>Parking Area</Text>
+      </View>
+    );
+  };
+  const CCTV = () => {
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={require('../assets/cctv-camera.png')} />
+        </View>
+        <Text style={style.txt}>Security Camera</Text>
+      </View>
+    );
+  };
+ 
 const style = StyleSheet.create({
   imageContainer: {
     backgroundColor:  "#9bbad1",
@@ -114,7 +204,7 @@ const style = StyleSheet.create({
 
   },
   image: {height: 28, width: 28, tintColor: '#0b1b3d', margin: 10},
-  txt: {fontSize: 16, marginTop: 10, marginLeft: 10, fontWeight: '400'},
+  txt: {fontSize: 14, marginTop: 10, marginLeft: 10, fontWeight: '400'},
 });
 export 
 {
@@ -126,5 +216,15 @@ export
     Furniture,
     Dryer,
     KitchenAppliances,
-    WashingMachine
+    WashingMachine,
+    Breakfast,
+    Meal,
+    Kitchen,
+    Elevator,
+    Laundry,
+    CCTV,
+    Seaview,
+    Parking,
+    Housekeeper
+    
 };

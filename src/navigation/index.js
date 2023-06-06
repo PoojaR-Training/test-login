@@ -8,12 +8,9 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ForgetPasswordScreen from '../screens/ForgetPasswordScreen/ForgetPasswordScreen';
 import NewPasswordScreen from '../screens/NewPasswordScren/NewPasswordScreen';
 import EmailConfirmScreen from '../screens/EmailConfirmScreen/EmailConfirm';
-import AddPropertyToRent from '../screens/AddPropertToRent/AddPropertyToRent';
 import DetailHomeScreen1 from '../screens/DetailHomeScreen/DetailHomeScreen1';
-import DetailHomeScreen2 from '../screens/DetailHomeScreen/DetailHomeScreen2';
-import DetailHomeScreen3 from '../screens/DetailHomeScreen/DetailHomeScreen3';
-import DetailHomeScreen4 from '../screens/DetailHomeScreen/DetailHomeScreen4';
 import PropertDetails from '../screens/PropertyDetails/PropertyDetails1/PropertyDetails';
+import SearchScreen from '../screens/SearchScrren/SearchScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLogin } from '../context/LoginProvider';
 
@@ -55,11 +52,9 @@ const HomeNavigator =()=>{
         }
       }>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Add" component={AddPropertyToRent} />
       <Stack.Screen name= "DetailHome" component={DetailHomeScreen1} />
-      <Stack.Screen name="DetailHome2" component={DetailHomeScreen2} />
-      <Stack.Screen name="DetailHome3" component={DetailHomeScreen3} />
       <Stack.Screen name="PropertyDetails" component={PropertDetails}/>
+     
       </Stack.Navigator>
     </NavigationContainer>
   );

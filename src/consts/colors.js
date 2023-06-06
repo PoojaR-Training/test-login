@@ -6,6 +6,8 @@ const COLORS = {
   blue: '#5f82e6',
   red: 'red',
   tranparent: 'rgba(0,0,0,0)',
+  yellow: `rgb(250,230,50)`,
+  gray: `rgb(120,120,120)`,
 };
 
 export default COLORS;

@@ -7,45 +7,38 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  ScrollView,
 } from 'react-native';
 import COLORS from '../../../consts/colors';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import AboutDetails from './AboutDetails';
+import {useNavigation} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
-const Tab = createMaterialTopTabNavigator();
+
 const PropertDetails = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const id = route.params.id;
-  console.log(id, 'routeid');
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: "#9bbad1"}}>
-      <View style={{flex: 0.12}}>
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: 'bold',
-            margin: 10,
-            marginTop: 20,
-            marginBottom: 5,
-          }}>
-          Property Details
-        </Text>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
-        }}>
-        <Tab.Navigator
-          screenOptions={{
-            labelStyle: {textTransform: 'none'},
-            style: {fontSize: 5, backgroundColor: '#d5e0e8'},
-          }}>
-          <Tab.Screen name="Services" component={AboutDetails} initialParams={{id:id}} />
-          <Tab.Screen name="Owner" component={AboutDetails} initialParams={{id:id}} />
-        </Tab.Navigator>
-      </View>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#9bbad1'}}>
+        <View style={{flex: 0.10, flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('DetailHome', {id})}>
+            <Image
+              style={{height: 35, width: 35,marginTop:10,margin:5}}
+              source={require('../../../assets/left-arrow.png')}
+            />
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: 'bold',
+             marginTop: 10,
+            }}>
+            Property Details
+          </Text>
+        </View>
+        <AboutDetails />
+   
     </SafeAreaView>
   );
 };

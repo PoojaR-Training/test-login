@@ -5,11 +5,11 @@ import LoginProvider from './src/context/LoginProvider';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.main}>
+    <>
       <LoginProvider>
         <Navigation />
       </LoginProvider>
-    </SafeAreaView>
+    </>
   );
 };
 

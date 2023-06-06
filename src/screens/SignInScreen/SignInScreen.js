@@ -9,7 +9,7 @@ import {
   TextInput,
   Alert,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton';
@@ -18,6 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../../context/LoginProvider';
 
 const SignInScreen = () => {
+  const [text, onChangeText] = React.useState('Username or Email');
+  const [pwtext, pwChangeTex] = React.useState('Password');
   const navigation = useNavigation();
   const {height} = useWindowDimensions();
   const {isLoggedIn, setIsLoggedIn} = useLogin();
@@ -57,15 +59,18 @@ const SignInScreen = () => {
       });
 
       const result = await response.json();
-
       if (result.error) {
         Alert.alert('Try again', 'Invalid Username or Password');
       } else {
         try {
           await AsyncStorage.setItem('token', result.token);
+          await AsyncStorage.setItem('id', result.user._id);
           const saved = await AsyncStorage.getItem('token');
-          console.log('Token save: ', saved);
+          console.log('gtoken saved', saved);
+          const id = await AsyncStorage.getItem('id');
+          console.log('id save: ', id);
           checkToken();
+
           isLoggedIn ? navigation.navigate('Home') : null;
           console.log(isLoggedIn);
         } catch (error) {
@@ -78,25 +83,12 @@ const SignInScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1,backgroundColor: '#d5e0e8'}}>
-      <View style={{flex: 0.35, }}>
-        <Image
-          source={{
-            uri: 'https://cdn3.iconfinder.com/data/icons/rental-property-filloutline/64/BROKER-real_estate-broker-housin-price-marketing-64.png',
-          }}
-          style={styles.img}
-        />
-      </View>
-      <View
-        style={{
-          backgroundColor: '#9bbad1',
-          flex: 1,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
-        }}>
-        <ScrollView>
-          <View style={styles.item}>
-          <Text style={styles.txt}>Welcome Back</Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
+      <View style={styles.container}>
+        <View style={styles.view1}>
+          <Text style={styles.heading1}>Welcome back </Text>
+        </View>
+        <View style={styles.view2}>
           <Controller
             control={control}
             rules={{
@@ -106,7 +98,7 @@ const SignInScreen = () => {
               <TextInput
                 placeholder="Username"
                 name="username"
-                style={styles.container}
+                style={styles.email}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -128,11 +120,10 @@ const SignInScreen = () => {
                 placeholder="Password"
                 secureTextEntry={false}
                 name="password"
-                style={styles.container}
+                style={styles.email}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
-               
               />
             )}
             name="password"
@@ -140,85 +131,94 @@ const SignInScreen = () => {
           {errors.password && (
             <Text style={styles.error}>{errors.password.message}</Text>
           )}
-          
-
-            <TouchableOpacity style={styles.btncontainer} onPress={handleSubmit(onSignInPress)}>
-            <Text style={styles.byntxt}>SIGN IN</Text>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={onForgetPress}>
+            <Text style={styles.fogPw}>Forgot Password?</Text>
+          </TouchableOpacity>
          
-        
-          <CustomButton
-            onPress={onSignUpPress}
-            types={'TERTIARY'}
-            txt="Don't have a Account? SIGN UP"
-          />
-            <CustomButton
-            txt="Forget Password?"
-            types={`TERTIARY`}
-            onPress={onForgetPress}
-          />
-         </View>
-        </ScrollView>
+
+          <TouchableOpacity
+            style={styles.buttonstyle}
+            onPress={handleSubmit(onSignInPress)}>
+            <Text style={styles.signintxt}>Sign In</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{bottom: '-2%'}}>
+          <TouchableOpacity onPress={onSignUpPress}>
+          <Text style={{textAlign: 'center'}}>
+            Not a member? <Text style={{color: '#1580FF'}}>Register here</Text>{' '}
+          </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
-  txt: {
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+    paddingVertical: '11%',
+    paddingHorizontal: '4%',
+
+  },
+  view1: {
+    flex: 1,
+ 
+    top: '12%',
+  },
+  view2: {
+    flex: 2,
+    bottom: '7%',
+  },
+  heading1: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    margin: 20,
-    color: 'black',
   },
-  container: {
-    width: '90%',
+  para1: {
+    fontSize: 18,
+    opacity: 0.7,
+    textAlign: 'center',
+    paddingHorizontal: '20%',
+    top: 3,
+    backgroundColor:'red'
+  },
+  email: {
     height: 55,
-    marginTop: 10,
-    marginBottom: 15,
-    marginLeft: 20,
-    marginRight: 20,
-    paddingHorizontal: 10,
+    margin: 12,
+    borderWidth: 0,
+    padding: 10,
+    borderRadius: 8,
     backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    fontSize :15
+  
+  },
+  fogPw: {
+    textAlign: 'right',
+    right: 14,
+    top: 2,
+    color: 'grey',
+    fontWeight:'bold',
+  },
+  buttonstyle: {
+    borderRadius: 10,
+    height: 55,
+    margin: 12,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 30,
+  },
+
+  signintxt: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   error: {
     color: 'red',
-    marginLeft: 8,
+    marginLeft: 12,
   },
-  img: {
-    height: '70%',
-    width: '30%',
-    marginTop: 20,
-    marginLeft: 155,
-    overflow: 'visible',
-  },
-
-  byntxt:{
-      color: 'white',
-      fontSize: 17,
-      fontWeight: 'bold',
-      textAlign: 'center',
-  },
-  btncontainer:{
-    backgroundColor :"black",
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 20,
-    height: 60,
-    width: '90%',
-    borderRadius: 20,
-    padding: 5,
-    marginTop: 20,
-  },
-  item:{
-    marginTop: 50,
-  },
-  
 });
 
 export default SignInScreen;
