@@ -19,6 +19,7 @@ import COLORS from '../../consts/colors';
 const {width} = Dimensions.get('screen');
 import {useNavigation} from '@react-navigation/native';
 const DetailHomeScreen = () => {
+  const windowHeight = Dimensions.get('window').height;
   const navigation = useNavigation();
   const route = useRoute();
   const [data, setData] = useState(null);
@@ -77,8 +78,8 @@ console.log(aboutlen.substring(0,100));
   };
 
   return (
-    <SafeAreaView style={{flex: 1,backgroundColor:'#9bbad1' }}>
-       <View style={{flex: 0.10,flexDirection:'row',alignItems:'center'}}>
+    <View style={{flex: 1, backgroundColor: '#9bbad1',}}>
+       <View style={{flex: 0.10,flexDirection:'row',alignItems:'center',marginTop:windowHeight/20}}>
         <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
       <Image
               style={{height: 35, width: 35}}
@@ -192,7 +193,7 @@ console.log(aboutlen.substring(0,100));
      
       </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

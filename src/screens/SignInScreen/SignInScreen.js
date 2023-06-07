@@ -18,8 +18,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../../context/LoginProvider';
 
 const SignInScreen = () => {
-  const [text, onChangeText] = React.useState('Username or Email');
-  const [pwtext, pwChangeTex] = React.useState('Password');
   const navigation = useNavigation();
   const {height} = useWindowDimensions();
   const {isLoggedIn, setIsLoggedIn} = useLogin();
@@ -50,6 +48,7 @@ const SignInScreen = () => {
   }
   const onSignInPress = async data => {
     try {
+      console.log(data);
       const response = await fetch('http://192.168.200.136:8000/users/login', {
         method: 'POST',
         headers: {

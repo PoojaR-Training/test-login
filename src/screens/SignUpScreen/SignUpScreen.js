@@ -22,13 +22,13 @@ const SignUpScreen = () => {
     formState: {errors},
     watch,
   } = useForm();
-  const pwd= watch('password')
-  const onSignUpPress =()=>{
-navigation.navigate('SignIn');
-  }
-  const onForget =()=>{
+  const pwd = watch('password');
+  const onSignUpPress = () => {
+    navigation.navigate('SignIn');
+  };
+  const onForget = () => {
     navigation.navigate('Forget');
-  }
+  };
   const onSubmit = async data => {
     try {
       const response = await fetch(
@@ -44,12 +44,11 @@ navigation.navigate('SignIn');
 
       const result = await response.json();
       console.log(result);
-     
+
       if (result.error) {
-        Alert.alert("Try again", "Username already registered")
-       }
-       else{
-       navigation.navigate('SignIn');
+        Alert.alert('Try again', 'Username already registered');
+      } else {
+        navigation.navigate('SignIn');
         Alert.alert(
           'Registration Success',
           'Please Login with your credentials to continue',
@@ -61,12 +60,12 @@ navigation.navigate('SignIn');
   };
 
   return (
-   <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
-    <View style={styles.container}>
-      <View style={styles.view1}>
-        <Text style={styles.heading1}>Registration</Text>
-      </View>
-      <View style={styles.view2}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
+      <View style={styles.container}>
+        <View style={styles.view1}>
+          <Text style={styles.heading1}>Registration</Text>
+        </View>
+        <View style={styles.view2}>
           <Controller
             control={control}
             rules={{
@@ -148,9 +147,8 @@ navigation.navigate('SignIn');
             control={control}
             rules={{
               required: 'Confirm Password is required',
-              validate: value => value === pwd || 'Password does not match'
+              validate: value => value === pwd || 'Password does not match',
             }}
-
             render={({field: {onChange, onBlur, value}}) => (
               <TextInput
                 placeholder="Confirm Password"
@@ -164,22 +162,19 @@ navigation.navigate('SignIn');
             )}
             name="confirmPassword"
           />
-            {errors.confirmPassword && (
+          {errors.confirmPassword && (
             <Text style={styles.error}>{errors.confirmPassword.message}</Text>
           )}
-            
-            <Controller
+
+          <Controller
             control={control}
             rules={{
               required: 'Contact is required',
               pattern: {
-                value:
-                  /^\d+$/,
+                value: /^\d+$/,
                 message: 'Invalid contact number',
               },
-              
             }}
-
             render={({field: {onChange, onBlur, value}}) => (
               <TextInput
                 placeholder="Contact Number"
@@ -193,26 +188,25 @@ navigation.navigate('SignIn');
             )}
             name="contact"
           />
-            {errors.contact && (
+          {errors.contact && (
             <Text style={styles.error}>{errors.contact.message}</Text>
           )}
-            <TouchableOpacity
+          <TouchableOpacity
             style={styles.buttonstyle}
             onPress={handleSubmit(onSubmit)}>
             <Text style={styles.signintxt}>Sign Up</Text>
           </TouchableOpacity>
-            </View>
-            <View style={{bottom: '-1%'}}>
+        </View>
+        <View style={{bottom: '-1%'}}>
           <TouchableOpacity onPress={onSignUpPress}>
-          <Text style={{textAlign: 'center'}}>
-            Already have a account? <Text style={{color: '#1580FF'}}>Login here</Text>{' '}
-          </Text>
+            <Text style={{textAlign: 'center'}}>
+              Already have a account?{' '}
+              <Text style={{color: '#1580FF'}}>Login here</Text>{' '}
+            </Text>
           </TouchableOpacity>
         </View>
-        
-       </View>
-        </SafeAreaView>
-
+      </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -221,15 +215,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: '5%',
     paddingHorizontal: '4%',
-  
   },
   view1: {
     flex: 1,
-  
   },
   view2: {
     flex: 2,
-   
+
     top: '-25%',
   },
   heading1: {
@@ -243,16 +235,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: '20%',
     top: 3,
-    backgroundColor:'red'
+    backgroundColor: 'red',
   },
- txtbox: {
+  txtbox: {
     height: 55,
     margin: 12,
     borderWidth: 0,
     padding: 10,
     borderRadius: 8,
     backgroundColor: 'white',
-  
   },
   fogPw: {
     textAlign: 'right',
@@ -267,7 +258,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-   // top: 8,
+    // top: 8,
   },
 
   signintxt: {
@@ -280,6 +271,5 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
 });
-
 
 export default SignUpScreen;
