@@ -22,7 +22,7 @@ export default function Facility() {
   const navigation = useNavigation();
   const route = useRoute();
   const arr = route.params.arr;
-  console.log(arr, 'route');
+  const type = arr[1];
   const windowHeight = Dimensions.get('window').height;
   const radioButtons = useMemo(
     () => [
@@ -40,45 +40,47 @@ export default function Facility() {
     [],
   );
 
-  const [wifiselected, setwifiSelected] = useState();
-  const [lanselected, setlanSelected] = useState();
-  const [acselected, setacSelected] = useState();
-  const [dryerselected, setdryerSelected] = useState();
-  const [tvselected, settvSelected] = useState();
-  const [washingmachineselected, settmachineseSelected] = useState();
-  const [furnitureselected, setfurnitureSelected] = useState();
-  const [kitchenAppliancesselected, setKitchenAppliancesSelected] = useState();
-  const [kitchenSelected, setkitchenSelected] = useState();
-  const [elevatorSelected, setelevatorSelected] = useState();
-  const [housekeeperSelected, sethousekeeperSelected] = useState();
-  const [laundrySelected, setlaundrySelected] = useState();
-  const [mealSelected, setmealSelected] = useState();
-  const [breakfastSelected, setbreakfastSelected] = useState();
-  const [parkingSelected, setparkingSelected] = useState();
-  const [seaviewSelected, setseaviewSelected] = useState();
-  const [securitycameraSelected, setsecuritycameraSelected] = useState();
-console.log(wifiselected,"security")
-const navigate = ()=>{
-  arr.push("freeWifi",wifiselected)
-  arr.push('lanConnections',lanselected)
-  arr.push('AC',acselected)
-  arr.push('washingMachine',washingmachineselected)
-  arr.push('dryer',dryerselected)
-  arr.push('furniture',furnitureselected)
-  arr.push('TV',tvselected)
-  arr.push('kitchenAppliances',kitchenAppliancesselected)
-  arr.push('elevator',elevatorSelected)
-  arr.push('housekeeping',housekeeperSelected)
-  arr.push('laundry',laundrySelected)
-  arr.push('meals',mealSelected);
-  arr.push('breakfast',breakfastSelected);
-  arr.push('seaview',seaviewSelected)
-  arr.push('freeparking',parkingSelected)
-  arr.push('kitchen',kitchenSelected)
-  arr.push('securitycamera',securitycameraSelected)
-  console.log(arr);
-  navigation.navigate('Owner',{arr})
-}
+  const [wifiselected, setwifiSelected] = useState('1');
+  const [lanselected, setlanSelected] = useState('1');
+  const [acselected, setacSelected] = useState('1');
+  const [dryerselected, setdryerSelected] = useState('1');
+  const [tvselected, settvSelected] = useState('1');
+  const [washingmachineselected, settmachineseSelected] = useState('1');
+  const [furnitureselected, setfurnitureSelected] = useState('1');
+  const [kitchenAppliancesselected, setKitchenAppliancesSelected] = useState('1');
+  const [kitchenSelected, setkitchenSelected] = useState('1');
+  const [elevatorSelected, setelevatorSelected] = useState('1');
+  const [housekeeperSelected, sethousekeeperSelected] = useState('1');
+  const [laundrySelected, setlaundrySelected] = useState('1');
+  const [mealSelected, setmealSelected] = useState('1');
+  const [breakfastSelected, setbreakfastSelected] = useState('1');
+  const [parkingSelected, setparkingSelected] = useState('1');
+  const [seaviewSelected, setseaviewSelected] = useState('1');
+  const [securitycameraSelected, setsecuritycameraSelected] = useState('1');
+
+  console.log(wifiselected, 'security');
+  const navigate = () => {
+    arr.push({freeWifi: wifiselected});
+    arr.push({lanConnections: lanselected});
+    arr.push({AC: acselected});
+    arr.push({washingMachine: washingmachineselected});
+    arr.push({dryer: dryerselected});
+    arr.push({furniture: furnitureselected});
+    arr.push({TV: tvselected});
+    arr.push({kitchenAppliances: kitchenAppliancesselected});
+    arr.push({elevator:elevatorSelected});
+    arr.push({housekeeping:housekeeperSelected});
+    arr.push({laundry: laundrySelected});
+    arr.push({meals: mealSelected});
+    arr.push({breakfast: breakfastSelected});
+    arr.push({seaview :seaviewSelected});
+    arr.push({freeparking: parkingSelected});
+    arr.push({kitchen: kitchenSelected});
+    arr.push({securitycamera: securitycameraSelected});
+    // console.log(arr);
+    navigation.navigate('Owner', {arr});
+  };
+  console.log(type.type, 'type');
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
       <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 20}}>
@@ -98,7 +100,7 @@ const navigate = ()=>{
           </Text>
         </View>
         <ScrollView>
-        <View style={styles.rowContainer}>
+          <View style={styles.rowContainer}>
             <Text style={styles.label}>Free Wifi</Text>
             <RadioGroup
               radioButtons={radioButtons}
@@ -119,12 +121,9 @@ const navigate = ()=>{
             />
           </View>
           <View style={styles.separator} />
-          
 
           <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Furniture
-            </Text>
+            <Text style={styles.label}>Furniture</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setfurnitureSelected}
@@ -132,14 +131,10 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
 
           <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Air Conditioner
-            </Text>
+            <Text style={styles.label}>Air Conditioner</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setacSelected}
@@ -147,59 +142,45 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
+
+          {type.type == 'farm' ? null : (
+            <>
+              <View style={styles.rowContainer}>
+                <Text style={styles.label}>Washing Machine</Text>
+                <RadioGroup
+                  radioButtons={radioButtons}
+                  onPress={settmachineseSelected}
+                  selectedId={washingmachineselected}
+                  layout="row"
+                />
+              </View>
+              <View style={styles.separator} />
+              <View style={styles.rowContainer}>
+                <Text style={styles.label}>Television</Text>
+                <RadioGroup
+                  radioButtons={radioButtons}
+                  onPress={settvSelected}
+                  selectedId={tvselected}
+                  layout="row"
+                />
+              </View>
+              <View style={styles.separator} />
+              <View style={styles.rowContainer}>
+                <Text style={styles.label}>Dryer</Text>
+                <RadioGroup
+                  radioButtons={radioButtons}
+                  onPress={setdryerSelected}
+                  selectedId={dryerselected}
+                  layout="row"
+                />
+              </View>
+              <View style={styles.separator} />
+            </>
+          )}
 
           <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Television
-            </Text>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={settvSelected}
-              selectedId={tvselected}
-              layout="row"
-            />
-          </View>
-          <View
-            style={styles.separator}
-          />
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Washing Machine
-            </Text>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={settmachineseSelected}
-              selectedId={washingmachineselected}
-              layout="row"
-            />
-          </View>
-          <View
-            style={styles.separator}
-          />
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Dryer
-            </Text>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={setdryerSelected}
-              selectedId={dryerselected}
-              layout="row"
-            />
-          </View>
-          <View
-            style={styles.separator}
-          />
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Kitchen Appliances
-            </Text>
+            <Text style={styles.label}>Kitchen Appliances</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setKitchenAppliancesSelected}
@@ -207,29 +188,24 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
+          {type.type == 'flat' ? (
+            <>
+              <View style={styles.rowContainer}>
+                <Text style={styles.label}>Elevator</Text>
+                <RadioGroup
+                  radioButtons={radioButtons}
+                  onPress={setelevatorSelected}
+                  selectedId={elevatorSelected}
+                  layout="row"
+                />
+              </View>
+              <View style={styles.separator} />
+            </>
+          ) : null}
 
           <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Elevator
-            </Text>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={setelevatorSelected}
-              selectedId={elevatorSelected}
-              layout="row"
-            />
-          </View>
-          <View
-            style={styles.separator}
-          />
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              House Keeper
-            </Text>
+            <Text style={styles.label}>House Keeper</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={sethousekeeperSelected}
@@ -237,14 +213,11 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Laundry
-            </Text>
+          <View style={styles.separator} />
+          {
+            (type.type== 'pg')?<>
+              <View style={styles.rowContainer}>
+            <Text style={styles.label}>Laundry</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setlaundrySelected}
@@ -252,14 +225,10 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
 
           <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Meal
-            </Text>
+            <Text style={styles.label}>Meal</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setmealSelected}
@@ -267,14 +236,10 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
 
           <View style={styles.rowContainer}>
-            <Text style={styles.label}>
-              Breakfast
-            </Text>
+            <Text style={styles.label}>Breakfast</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setbreakfastSelected}
@@ -282,14 +247,10 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
 
           <View style={styles.rowContainer}>
-          <Text style={styles.label}>
-              Ready to cook Kitchen
-            </Text>
+            <Text style={styles.label}>Ready to cook Kitchen</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setkitchenSelected}
@@ -297,14 +258,13 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
 
+            </>:null
+          }
+        
           <View style={styles.rowContainer}>
-          <Text style={styles.label}>
-              Sea Side Facing
-            </Text>
+            <Text style={styles.label}>Sea Side Facing</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setseaviewSelected}
@@ -312,16 +272,10 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
-
-    
+          <View style={styles.separator} />
 
           <View style={styles.rowContainer}>
-          <Text style={styles.label}>
-              Parking
-            </Text>
+            <Text style={styles.label}>Parking</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setparkingSelected}
@@ -329,14 +283,10 @@ const navigate = ()=>{
               layout="row"
             />
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator} />
 
           <View style={styles.rowContainer}>
-          <Text style={styles.label}>
-              Security Camera
-            </Text>
+            <Text style={styles.label}>Security Camera</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={setsecuritycameraSelected}
@@ -346,7 +296,7 @@ const navigate = ()=>{
           </View>
           <TouchableOpacity
             style={styles.buttonstyle}
-            onPress={()=>navigate(arr)}>
+            onPress={() => navigate(arr)}>
             <Text style={styles.signintxt}>Next</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -372,7 +322,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-   // top: 20,
+    // top: 20,
   },
 
   signintxt: {

@@ -24,13 +24,10 @@ const HomeScreen = () => {
     "tabBarStyle": [
       {
         "backgroundColor":'#9bbad1',
-       
         "elevation":0,
         "borderRadius":15,
-       //"height":0,
         "alignItems":'center',
         "justifyContent":'center'
-      
       },
     ]
   }}>
@@ -63,7 +60,6 @@ const HomeScreen = () => {
                   tintColor:focused? 'red': 'gray'
                  }}
               />
-
         </View>
       )
     }}/>
@@ -106,6 +102,7 @@ const HomeScreen = () => {
   </Tab.Navigator>
 
   );
+  
 };
 
 export default HomeScreen;

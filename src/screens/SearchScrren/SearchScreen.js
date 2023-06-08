@@ -26,7 +26,7 @@ const SearchScreen = ({search, activeCategory}) => {
       API = `http://192.168.200.136:8000/property/getpropertybycitytype/house/${search}`;
     }
     if (activeCategory == 2) {
-      API = `http://192.168.200.136:8000/property/getpropertybycitytype/apartment/${search}`;
+      API = `http://192.168.200.136:8000/property/getpropertybycitytype/flat/${search}`;
     }
     if (activeCategory == 3) {
       API = `http://192.168.200.136:8000/property/getpropertybycitytype/farm/${search}`;

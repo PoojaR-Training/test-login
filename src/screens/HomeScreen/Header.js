@@ -18,7 +18,8 @@ import {
   import DetailsScreen1 from '../DetailScreen/DetailsScreen1';
   import SearchScreen from '../SearchScrren/SearchScreen';
 
-  const Header = () => {
+  
+const Header = ({ updateLikedProperties, likedProperties }) => {
     const [activeCategory, setActiveCategory] = useState(0);
     const [input,setInput] = useState("");
     const [search, setSearch] = useState();

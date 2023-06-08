@@ -33,8 +33,7 @@ const OnBoardScreen = () => {
   const navigation = useNavigation();
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const {width: windowWidth} = useWindowDimensions();
-  //const slides=['/Users/imac17/Documents/training/React-native/test/src/assets/onboardImage.jpg'];
+  //const {width: windowWidth} = useWindowDimensions();
   return (
     <View style={{flex: 1, backgroundColor: '#d5e0e8'}}>
       <View style={{flex: 1.5, marginTop: 5}}>
@@ -66,9 +65,9 @@ const OnBoardScreen = () => {
 
           <View style={{marginTop: 10}}>
             <Text style={styles.textStyle}>
-              Book Your 
+              Explore different
             </Text>
-            <Text style={styles.textStyle}>Property in just a few clicks</Text>
+            <Text style={styles.textStyle}>Properties in just a few clicks</Text>
           </View>
         </View>
 

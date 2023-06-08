@@ -22,31 +22,34 @@ const Property = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const selected = route.params.selected;
-  console.log(selected, 'type');
+  
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm();
-  const navigate = (data) => {
-    navigation.navigate('Images',{data});
-  };
+  
   const data = [];
 
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [location, setLocation] = useState();
   const [address, setAddress] = useState();
-  const [rent, setRent] = useState();
+  const [price, setPrice] = useState();
   const [area, setArea] = useState();
+  //data.push({selected});
+ // console.log(selected, 'SELECTED');
   data.push({title: title});
   data.push({description: description});
   data.push({location: location});
   data.push({address: address});
-  data.push({rent: rent});
+  data.push({price: price});
   data.push({area: area});
-  data.push({type:selected});
-  console.log(data,"data");
+  const navigate = (data) => {
+    console.log(data,'propertiespagedata');
+    navigation.navigate('Images',{data,selected});
+  };
+  //console.log(data,"data");
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
       <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 20}}>
@@ -134,20 +137,20 @@ const Property = () => {
             render={({field: {value,onChange}}) => (
               <TextInput
                 placeholder="Enter Rent of Property"
-                name="rent"
+                name="price"
                 value={value}
                 style={styles.txtbox}
                 keyboardType="number-pad"
                 onChangeText={text=>{
-                  setRent(text);
+                  setPrice(text);
                   onChange(text)
                 }}
               />
             )}
-            name="rent"
+            name="price"
           />
-          {errors.rent && (
-            <Text style={styles.error}>{errors.rent.message}</Text>
+          {errors.price&& (
+            <Text style={styles.error}>{errors.price.message}</Text>
           )}
           <Controller
             control={control}
@@ -230,7 +233,7 @@ const Property = () => {
           )}
           <TouchableOpacity
             style={styles.buttonstyle}
-           onPress={()=>navigate(data)}>
+           onPress={handleSubmit((data)=>navigate(data))}>
             <Text style={styles.signintxt}>Next</Text>
           </TouchableOpacity>
         </View>

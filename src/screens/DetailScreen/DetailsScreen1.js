@@ -11,6 +11,7 @@ import {
   StatusBar,
   ImageBackground,
   TouchableOpacity,
+  RefreshControl
 } from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import COLORS from '../../consts/colors';
@@ -28,7 +29,7 @@ const DetailsScreen1 = ({activeCategory}) => {
   } else if (activeCategory == 1) {
     API = 'http://192.168.200.136:8000/property/getpropertyType/house';
   } else if (activeCategory == 2) {
-    API = 'http://192.168.200.136:8000/property/getpropertyType/apartment';
+    API = 'http://192.168.200.136:8000/property/getpropertyType/flat';
   } else if (activeCategory == 3) {
     API = 'http://192.168.200.136:8000/property/getpropertyType/farm';
   } else if (activeCategory == 4) {

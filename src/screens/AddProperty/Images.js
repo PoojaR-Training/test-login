@@ -27,16 +27,20 @@ const AddPropertyScreen = () => {
 
   const route = useRoute();
   const data = route.params.data;
- // console.log(data, 'route');
+const selected =route.params.selected
+console.log(data,"dataimage");
+console.log(selected,"selected");
   const navigation = useNavigation();
   const windowHeight = Dimensions.get('window').height;
   const [image, setImage] = useState();
   const [images, setImages] = useState([]);
-  const [error, setError] = useState(false)
+  const [covererror, setCoverError] = useState();
+  const [propertyError, setPropertyError] = useState();
+  const [navigateTo, setNavigateTo] = useState(false);
   const arr = [];
   arr.push(data);
-  //console.log(arr, 'arr');
- 
+  arr.push({type:selected});
+console.log(arr,'imagepagedata');
   const imagePick = () => {
     try {
       ImagePicker.openPicker({
@@ -45,10 +49,8 @@ const AddPropertyScreen = () => {
         cropping: true,
       })
         .then(image => {
-        //  console.log('img', image);
+          //  console.log('img', image);
           setImage(image.path);
-         
-       
         })
         .catch(error => {
           Alert.alert('Try again', 'Image selection cancelled');
@@ -68,11 +70,10 @@ const AddPropertyScreen = () => {
         multiple: 'true',
       })
         .then(response => {
-         // console.log('img', response);
+          console.log('img', response);
           response.map(image => {
-            imagesList.push( image.path);
-          
-           
+            imagesList.push(image.path);
+            console.log(imagesList);
           });
           setImages(imagesList);
         })
@@ -86,17 +87,24 @@ const AddPropertyScreen = () => {
     }
   };
   const navigate = arr => {
-    if(image &&images){
-      arr.push({cover:image});
-      arr.push(images);
-     navigation.navigate('Facility', {arr});
-     setError(false)
+    
+    if (image) {
+      setCoverError(false);
+      arr.push({cover: image});
+     
+    } else {
+      console.log('else');
+      setCoverError(true);
     }
-    else{
-      setError(true)
+    if (images.length > 0) {
+      arr.push({property:images});
+      setPropertyError(false);
+    } else {
+      setPropertyError(true);
     }
-  
-
+    if(covererror==false && propertyError==false) {
+      navigation.navigate('Facility', {arr});
+    }
   };
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
@@ -123,26 +131,19 @@ const AddPropertyScreen = () => {
             margin: 12,
             borderRadius: 8,
           }}>
-             {error ? <Text style={styles.error}>*Cover Image is required</Text> : null}
-          <Controller
-            control={control}
-            rules={{
-              required: 'Cover Image is required',
-            }}
-            render={({field: {value, onChange}}) => (
-              <TouchableOpacity onPress={imagePick}>
-                <Text style={styles.txt}>Select Cover Image</Text>
-                {image ? (
-                  <Image
-                    source={{uri: image}}
-                    style={{height: 100, width: 100, alignSelf: 'center'}}
-                  />
-                ) : null}
-              </TouchableOpacity>
-            )}
-            name="title"
-          />
-          
+          {covererror ? (
+            <Text style={styles.error}>*Cover Image is required</Text>
+          ) : null}
+
+          <TouchableOpacity onPress={imagePick}>
+            <Text style={styles.txt}>Select Cover Image</Text>
+            {image ? (
+              <Image
+                source={{uri: image}}
+                style={{height: 100, width: 100, alignSelf: 'center'}}
+              />
+            ) : null}
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -151,16 +152,20 @@ const AddPropertyScreen = () => {
             margin: 12,
             borderRadius: 8,
           }}>
+          {propertyError ? (
+            <Text style={styles.error}>*Property Image is required</Text>
+          ) : null}
           <TouchableOpacity onPress={imagesPick}>
             <Text style={styles.txt}>Select Property Image</Text>
           </TouchableOpacity>
+
           {images && (
             <FlatList
               data={images}
               horizontal
               renderItem={({item}) => (
                 <Image
-                  source={{uri: item.path}}
+                  source={{uri: item}}
                   style={{
                     height: 150,
                     width: 250,
@@ -225,7 +230,6 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginLeft: 12,
-   
   },
 });
 export default AddPropertyScreen;

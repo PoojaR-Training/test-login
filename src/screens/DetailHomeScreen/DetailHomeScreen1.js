@@ -185,9 +185,11 @@ console.log(aboutlen.substring(0,100));
            
               <Text style={{fontSize: 14, fontWeight: '400'}}>Total Price</Text>
             </View>
+            <TouchableOpacity >
             <View style={style.bookNowBtn}>
               <Text style={{color: COLORS.white, fontSize: 16}}>Book Now</Text>
             </View>
+            </TouchableOpacity>
           </View>
         </View>
      

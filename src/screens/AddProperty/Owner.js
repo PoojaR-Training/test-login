@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {useRoute} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Owner = () => {
   const [image, setImage] = useState();
   const [name, setName] = useState();
@@ -32,9 +33,43 @@ const Owner = () => {
   const route = useRoute();
   const arr = route.params.arr;
   console.log(arr, 'route');
-  const navigate =()=>{
-    navigation.navigate('Images')
-  }
+  const navigate = arr => {
+    arr.push({ownerimage: image});
+    arr.push({ownername: name});
+    arr.push({ownercontact: contact});
+    arr.push({owneremail: email});
+    console.log(arr, 'data');
+    postData(arr);
+  };
+  const postData = async arr => {
+    try {
+      let id = await AsyncStorage.getItem('id');
+      console.log(id);
+      /* const token = await AsyncStorage.getItem('token');
+      const response = await fetch(
+        'http://192.168.200.136:8000/property/postproperty',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify(arr),
+        },
+      );
+
+      const result = await response.json();
+      console.log(result);
+
+      if (result.error) {
+       console.log('errors.....')
+      } else {
+        console.log('successssss')
+      }*/
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const imagePick = () => {
     try {
       ImagePicker.openPicker({
@@ -87,94 +122,40 @@ const Owner = () => {
               }}
             />
           </TouchableOpacity>
-          <Controller
-            control={control}
-            rules={{
-              required: 'Name is required',
-              pattern: {
-                value: /^[a-zA-Z][a-zA-Z\\s]/,
-                message: 'Invalid Name',
-              },
-            }}
-            render={({field: {value, onChange}}) => (
-              <TextInput
-                placeholder="Enter Name Of Property Owner"
-                name="name"
-                value={value}
-                onChangeText={text => {
-                  onChange(text);
-                  setName(text);
-                }}
-                style={styles.txtbox}
-              />
-            )}
+          <TextInput
+            placeholder="Enter Name Of Property Owner"
             name="name"
+            onChangeText={text => {
+              setName(text);
+            }}
+            style={styles.txtbox}
           />
 
-          {errors.name && (
-            <Text style={styles.error}>{errors.name.message}</Text>
-          )}
-
-          <Controller
-            control={control}
-            rules={{
-              required: 'Emai; is required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid Email',
-              },
-            }}
-            render={({field: {value, onChange}}) => (
-              <TextInput
-                placeholder="Enter Email Of Property Owner"
-                name="email"
-                keyboardType="email-address"
-                style={styles.txtbox}
-                value={value}
-                onChangeText={text => {
-                  onChange(text);
-                  setEmail(text);
-                }}
-              />
-            )}
+          <TextInput
+            placeholder="Enter Email Of Property Owner"
             name="email"
-          />
+            keyboardType="email-address"
+            style={styles.txtbox}
+            onChangeText={text => {
+              onChange(text);
+              setEmail(text);
+            }}></TextInput>
 
-          {errors.email && (
-            <Text style={styles.error}>{errors.email.message}</Text>
-          )}
-          <Controller
-            control={control}
-            rules={{
-              required: 'Contact is required',
-              pattern: {
-                value:  /^\d+$/,
-                message: 'Invalid Contact',
-              },
-            }}
-            render={({field: {value, onChange}}) => (
-              <TextInput
-                placeholder="Enter Contact Number Of Property Owner"
-                name="contact"
-                keyboardType="phone-pad"
-                style={styles.txtbox}
-                value={value}
-                onChangeText={text => {
-                  onChange(text);
-                  setContact(text);
-                }}
-              />
-            )}
+          <TextInput
+            placeholder="Enter Contact Number Of Property Owner"
             name="contact"
+            keyboardType="phone-pad"
+            style={styles.txtbox}
+            value={value}
+            onChangeText={text => {
+              onChange(text);
+              setContact(text);
+            }}
           />
-
-          {errors.contact && (
-            <Text style={styles.error}>{errors.contact.message}</Text>
-          )}
 
           <TouchableOpacity
             style={styles.buttonstyle}
-            onPress={ handleSubmit(navigate)}>
+            onPress={() => navigate(arr)}>
             <Text style={styles.signintxt}>Submit</Text>
           </TouchableOpacity>
         </View>
