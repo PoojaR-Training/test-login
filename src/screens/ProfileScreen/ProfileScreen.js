@@ -104,7 +104,7 @@ const UserProfileScreen = ({ navigation }) => {
   };
 
   const dbimg = data && data.image;
-
+console.log(dbimg,"profile image saved");
   return (
     <SafeAreaView
       style={{
@@ -119,22 +119,22 @@ const UserProfileScreen = ({ navigation }) => {
             }
             resizeMode="cover"
             style={{
-              height: 180,
+              height: 160,
               width: '100%',
             }}
             blurRadius={12}
           />
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 0.21, alignItems: 'center' }}>
+      <View style={{ flex: 0.15, alignItems: 'center' }}>
         <TouchableOpacity onPress={imagePick}>
           <Image
             source={
               dbimg ? { uri: dbimg } : require('../../assets/person.jpg')
             }
             style={{
-              height: 150,
-              width: 150,
+              height: 130,
+              width: 130,
               borderRadius: 999,
               borderColor: 'black',
               borderWidth: 2,
@@ -143,6 +143,7 @@ const UserProfileScreen = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
+      <ScrollView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.title}>User Name</Text>
@@ -160,7 +161,11 @@ const UserProfileScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.btncontainer} onPress={checkToken}>
           <Text style={styles.byntxt}>Logout</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.btncontainer} >
+          <Text style={styles.byntxt}>Manage your Property</Text>
+        </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -175,7 +180,7 @@ const styles = {
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 15,
     width: '85%',
     alignSelf: 'center',
   },
@@ -200,9 +205,10 @@ const styles = {
     justifyContent: 'center',
     alignSelf: 'center',
     height: 60,
-    width: '85%',
+    width: '80%',
     borderRadius: 25,
     padding: 4,
+    marginBottom:10
   },
 };
 

@@ -38,12 +38,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width} = Dimensions.get('screen');
 const AboutDetails = () => {
-  const callme = () => {
-    let phoneNumber = '01234567';
-    Linking.openURL(`tel:${phoneNumber}`);
+  const callme = (phone) => {
+    
+    Linking.openURL(`tel:${phone}`);
   };
-  const openComposer = () => {
-  Linking.openURL('sms:+91234567')
+  const openComposer = (phone) => {
+  Linking.openURL(`sms:${phone}`);
   };
   const [data, setData] = useState(null);
   const route = useRoute();
@@ -71,9 +71,24 @@ const AboutDetails = () => {
     getApiData();
   }, []);
 
+  const RenderServicesImages=(props)=>{
+   console.log("props",props)
+    const {title,imageName}=props;
+    return (
+      <View style={style.main}>
+        <View style={style.imageContainer}>
+          <Image style={style.image} source={imageName} />
+        </View>
+        <Text style={style.txt}>
+          {title||'hii'}
+        </Text>
+      </View>
+    );
+    }
   const renderServices = () => {
     const services = [];
     if (data) {
+      console.log("data",data);
       if (data.freeWifi) services.push(<WifiService key="wifi" />);
       if (data.lanConnections) services.push(<LanService key="lan" />);
       if (data.freeInternet) services.push(<InternetService key="internet" />);
@@ -132,7 +147,7 @@ const AboutDetails = () => {
 
   return (
     <SafeAreaView style={{flex: 1,backgroundColor:'#dce3e8'}}>
-      <ScrollView>
+      <ScrollView scrollEnabled={true} nestedScrollEnabled  >
         <View style={{flex: 1}}>
           <Text
             style={{
@@ -144,12 +159,18 @@ const AboutDetails = () => {
             }}>
             Facilities
           </Text>
+          <View style={{marginTop:20}}>
+          <ScrollView horizontal={true} contentContainerStyle={{flex:1}}>
           <FlatList
             data={renderServices()}
             renderItem={renderItem}
             numColumns={2}
+            removeClippedSubviews={false}
             keyExtractor={(item, index) => index.toString()}
           />
+          </ScrollView>
+          
+          </View>
         </View>
         <View
           style={{
@@ -201,13 +222,17 @@ const AboutDetails = () => {
             }}>
             Inside View
           </Text>
+          <View style={{marginTop:20,marginLeft:10}}>
+            
           <FlatList
-            contentContainerStyle={{marginTop: 20, marginLeft: 10}}
+            contentContainerStyle={{marginTop: 20}}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={data && data.propertyimages}
+            removeClippedSubviews={false}
             renderItem={({item}) => <InteriorCard interior={item} />}
           />
+          </View>
         </View>
         <View
           style={{
@@ -230,13 +255,20 @@ const AboutDetails = () => {
           </Text>
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <Image
-            style={style.image}
-            source={require('../../../assets/person.jpg')}
-          />
-          <Text style={style.text}>Pooja Ranpara</Text>
+         
+        {data && (
+          
+              <Image
+                style={style.image}
+                source={{uri: data.ownerimage}}
+               resizeMode="cover"
+              />
+         
+          )}
+          <Text style={style.text}>{data && data.ownername}</Text>
           <View style={{flexDirection: 'row', alignContent: 'flex-end'}}>
-            <TouchableOpacity onPress={callme}>
+            
+          <TouchableOpacity onPress={() => callme(data && data.ownercontact)}>
               <Image
                 style={{
                   height: 30,
@@ -248,7 +280,7 @@ const AboutDetails = () => {
                 source={require('../../../assets/phone-call.png')}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={openComposer}>
+            <TouchableOpacity onPress={()=>openComposer(data && data.ownercontact)}>
               <Image
                 style={{
                   height: 30,
@@ -287,7 +319,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     marginRight: 10,
   },
-  image: {height: 100, width: 100, margin: 10, borderRadius: 45},
+  image: {height: 90, width: 90, margin: 10,borderRadius:999 },
   text: {
     fontSize: 16,
     marginTop: 50,
@@ -306,6 +338,21 @@ const style = StyleSheet.create({
     height: '40%',
     justifyContent: 'center',
   },
+  imageContainer: {
+    backgroundColor:  "#9bbad1",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    marginLeft: 20,
+    marginBottom: 20
+  },
+  main: {
+    flexDirection: 'row',
+    marginRight: 10,
+
+  },
+ 
+  txt: {fontSize: 14, marginTop: 10, marginLeft: 10, fontWeight: '400'},
 });
 
 export default AboutDetails;

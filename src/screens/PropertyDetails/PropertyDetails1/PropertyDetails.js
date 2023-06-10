@@ -20,6 +20,7 @@ const PropertDetails = () => {
   const id = route.params.id;
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#9bbad1'}}>
+   
         <View style={{flex: 0.10, flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={() => navigation.navigate('DetailHome', {id})}>
@@ -37,8 +38,9 @@ const PropertDetails = () => {
             Property Details
           </Text>
         </View>
+        
         <AboutDetails />
-   
+     
     </SafeAreaView>
   );
 };

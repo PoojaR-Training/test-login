@@ -13,7 +13,7 @@ const WifiService = () => {
       <View style={style.imageContainer}>
         <Image style={style.image} source={require('../assets/wifi.png')} />
       </View>
-      <Text style={style.txt}>Wifi</Text>
+      <Text style={style.txt} adjustsFontSizeToFit>Wifi</Text>
     </View>
   );
 };
@@ -23,7 +23,7 @@ const InternetService = () => {
       <View style={style.imageContainer}>
         <Image style={style.image} source={require('../assets/radio.png')} />
       </View>
-      <Text style={style.txt}>Internet Access</Text>
+      <Text style={style.txt} adjustsFontSizeToFit>Internet Access</Text>
     </View>
   );
 };
@@ -33,7 +33,7 @@ const LanService = () => {
       <View style={style.imageContainer}>
         <Image style={style.image} source={require('../assets/lan.png')} />
       </View>
-      <Text style={style.txt}>LAN</Text>
+      <Text style={style.txt} adjustsFontSizeToFit>LAN</Text>
     </View>
   );
 };
@@ -43,7 +43,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/air-conditioner.png')} />
         </View>
-        <Text style={style.txt}>AC</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>AC</Text>
       </View>
     );
   };
@@ -53,7 +53,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/washing-machine.png')} />
         </View>
-        <Text style={style.txt}>Washing Machine</Text>
+        <Text style={style.txt} adjustsFontSizeToFit  >Washing Machine</Text>
       </View>
       
     );
@@ -64,7 +64,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/dryer.png')} />
         </View>
-        <Text style={style.txt}>Dryer</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Dryer</Text>
       </View>
     );
   };
@@ -74,7 +74,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/sofa.png')} />
         </View>
-        <Text style={style.txt}>Furniture</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Furniture</Text>
       </View>
     );
   };
@@ -84,7 +84,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/tv.png')} />
         </View>
-        <Text style={style.txt}>TV</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>TV</Text>
       </View>
     );
   };
@@ -94,7 +94,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/kitchen.png')} />
         </View>
-        <Text style={style.txt}>Kitchen Appliances</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Kitchen Appliances</Text>
       </View>
     );
   };
@@ -104,7 +104,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/kitchen.png')} />
         </View>
-        <Text style={style.txt}>Kitchen</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Kitchen</Text>
       </View>
     );
   };
@@ -114,7 +114,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/food.png')} />
         </View>
-        <Text style={style.txt}>2 Time Meal</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>2 Time Meal</Text>
       </View>
     );
   };
@@ -124,7 +124,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/elevator.png')} />
         </View>
-        <Text style={style.txt}>Elevator</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Elevator</Text>
       </View>
     );
   };
@@ -134,7 +134,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/fashion.png')} />
         </View>
-        <Text style={style.txt}>Laundry</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Laundry</Text>
       </View>
     );
   };
@@ -144,7 +144,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/housekeeper.png')} />
         </View>
-        <Text style={style.txt}>Housekeeper</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Housekeeper</Text>
       </View>
     );
   };
@@ -154,7 +154,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/sea.png')} />
         </View>
-        <Text style={style.txt}>Seaview</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Seaview</Text>
       </View>
     );
   };
@@ -164,7 +164,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/coffee.png')} />
         </View>
-        <Text style={style.txt}>Breakfast</Text>
+        <Text style={style.txt} adjustsFontSizeToFit>Breakfast</Text>
       </View>
     );
   };
@@ -174,7 +174,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/parking.png')} />
         </View>
-        <Text style={style.txt}>Parking Area</Text>
+        <Text style={style.txt}  adjustsFontSizeToFit>Parking Area</Text>
       </View>
     );
   };
@@ -184,7 +184,7 @@ const AC = () => {
         <View style={style.imageContainer}>
           <Image style={style.image} source={require('../assets/cctv-camera.png')} />
         </View>
-        <Text style={style.txt}>Security Camera</Text>
+        <Text style={[style.txt,{}]} adjustsFontSizeToFit >Security Camera</Text>
       </View>
     );
   };
@@ -204,7 +204,7 @@ const style = StyleSheet.create({
 
   },
   image: {height: 28, width: 28, tintColor: '#0b1b3d', margin: 10},
-  txt: {fontSize: 14, marginTop: 10, marginLeft: 10, fontWeight: '400'},
+  txt: {flex:1,fontSize: 14, marginTop: 10, marginLeft: 10, fontWeight: '400'},
 });
 export 
 {

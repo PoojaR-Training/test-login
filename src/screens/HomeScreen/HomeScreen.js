@@ -16,6 +16,8 @@ import AddPropertyScreen from '../AddProperty/Addproperty';
 //import { Text } from 'react-native-svg';
 const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
+
+  
   return (
 
   <Tab.Navigator screenOptions={{
@@ -30,7 +32,7 @@ const HomeScreen = () => {
         "justifyContent":'center'
       },
     ]
-  }}>
+  }} initialRouteName='home'>
     <Tab.Screen name ={"home"} component={Header} options={{
       tabBarIcon:({focused})=>(
         <View style={{alignItems:'center',justifyContent:'center'}}>

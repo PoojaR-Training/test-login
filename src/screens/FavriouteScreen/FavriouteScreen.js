@@ -11,13 +11,14 @@ import {
   SafeAreaView,
 } from 'react-native';
 const {width} = Dimensions.get('screen');
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 import COLORS from '../../consts/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const FavoriteScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-
+  const isFocuse=useIsFocused();
   const handleCard = id => {
     navigation.navigate('DetailHome', {
       id,
@@ -42,11 +43,9 @@ const FavoriteScreen = () => {
   };
   useEffect(() => {
     getApiData();
-  },[]);
-  const likeProperty = async (id) => {
+  },[isFocuse]);
+  const likeProperty = async (id,like) => {
     try {
-     
-     const like = data[0].like;
       const token = await AsyncStorage.getItem('token');
       
       const response = await fetch(
@@ -62,6 +61,7 @@ const FavoriteScreen = () => {
       );
       if (response.ok) {
         console.log('Property like updated');
+        
         getApiData();
       } else {
         console.log('Failed to update property like');
@@ -70,11 +70,15 @@ const FavoriteScreen = () => {
       console.log(error);
     }
   };
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
 
   const Card = ({houses}) => {
+    
     return (
       <View style={style.card}>
-        <TouchableOpacity onPress={() => handleCard(houses._id)}>
+        <TouchableOpacity onPress={() => handleCard(houses._id,houses.like)}>
           <View style={style.imageContainer}>
             <ImageBackground
               source={{uri: houses.coverimage}}
@@ -91,7 +95,7 @@ const FavoriteScreen = () => {
                 marginTop: 10,
               }}>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                {houses.title}
+                {capitalizeFirstLetter(houses.title)}
               </Text>
               <Text
                 style={{
@@ -111,9 +115,9 @@ const FavoriteScreen = () => {
                
               }}>
               <Text style={{fontSize: 16, marginTop: 5}}>
-                {houses.location}
+              {capitalizeFirstLetter(houses.location)}
               </Text>
-              <TouchableOpacity onPress={() => likeProperty(houses._id)}>
+              <TouchableOpacity onPress={() => likeProperty(houses._id,houses.like)}>
                 <Image
                   style={{height: 30, width: 30}}
                   source={houses.like==true ? {
@@ -127,7 +131,7 @@ const FavoriteScreen = () => {
             </View>
 
             <View style={{marginTop: 10, flexDirection: 'row'}}>
-              <Text style={{fontSize: 16}}>{houses.address}</Text>
+              <Text style={{fontSize: 16}}>{capitalizeFirstLetter(houses.address)}</Text>
             </View>
           </View>
         </TouchableOpacity>

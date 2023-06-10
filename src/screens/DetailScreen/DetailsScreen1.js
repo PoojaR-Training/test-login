@@ -11,19 +11,23 @@ import {
   StatusBar,
   ImageBackground,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
+  Alert
 } from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import COLORS from '../../consts/colors';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const {width} = Dimensions.get('screen');
+
 const DetailsScreen1 = ({activeCategory}) => {
   console.log(activeCategory);
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  //const [like, setLike]= useState();
+  const isFocused = useIsFocused();
   let API = 'http://192.168.200.136:8000/property/getproperty';
+
   if (activeCategory == 0) {
     API = 'http://192.168.200.136:8000/property/getproperty';
   } else if (activeCategory == 1) {
@@ -37,9 +41,9 @@ const DetailsScreen1 = ({activeCategory}) => {
   } else {
     API = 'http://192.168.200.136:8000/property/getproperty';
   }
+
   const getApiData = async () => {
     const token = await AsyncStorage.getItem('token');
-
     let result = await fetch(API, {
       method: 'GET',
       headers: {
@@ -48,24 +52,26 @@ const DetailsScreen1 = ({activeCategory}) => {
       },
     });
     result = await result.json();
-
     setData(result);
   };
+
   useEffect(() => {
     getApiData();
-  }, [activeCategory]);
+  }, [isFocused, activeCategory]);
+
   const handleCard = id => {
     navigation.navigate('DetailHome', {
       id,
     });
   };
-  const likeProperty = async (id) => {
+
+  const likeProperty = async (id, like) => {
+    if (like) {
+      Alert.alert('Already Liked', 'You have already liked this property.');
+      return;
+    }
     try {
-      console.log("vfv",id);
-      console.log(data[0].like);
-     const like = data[0].like;
       const token = await AsyncStorage.getItem('token');
-      
       const response = await fetch(
         `http://192.168.200.136:8000/property/updatelike/${id}`,
         {
@@ -74,7 +80,7 @@ const DetailsScreen1 = ({activeCategory}) => {
             'Content-Type': 'application/json',
             Authorization: token,
           },
-          body: JSON.stringify({ like: !like }),
+          body: JSON.stringify({like: true}),
         }
       );
       if (response.ok) {
@@ -87,10 +93,15 @@ const DetailsScreen1 = ({activeCategory}) => {
       console.log(error);
     }
   };
+
   const Card = ({houses}) => {
+    const capitalizeFirstLetter = str => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
     return (
       <View style={style.card}>
-        <TouchableOpacity onPress={() => handleCard(houses._id)}>
+        <TouchableOpacity onPress={() => handleCard(houses._id, houses.like)}>
           <View style={style.imageContainer}>
             <ImageBackground
               source={{uri: houses.coverimage}}
@@ -126,17 +137,15 @@ const DetailsScreen1 = ({activeCategory}) => {
                 marginTop: 10,
               }}>
               <Text style={{fontSize: 16, marginTop: 5}}>
-                {houses.location}
+                {capitalizeFirstLetter(houses.location)}
               </Text>
-              <TouchableOpacity onPress={() => likeProperty(houses._id)}>
+              <TouchableOpacity onPress={() => likeProperty(houses._id, houses.like)}>
                 <Image
                   style={{height: 30, width: 30}}
-                  source={houses.like==true ? {
-                    uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png',
+                  source={
+                    houses.like ? {uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png'} :
+                    {uri: 'https://cdn-icons-png.flaticon.com/128/1077/1077035.png'}
                   }
-                : {
-                    uri:'https://cdn-icons-png.flaticon.com/128/1077/1077035.png' ,
-                  }}
                 />
               </TouchableOpacity>
             </View>
@@ -149,14 +158,19 @@ const DetailsScreen1 = ({activeCategory}) => {
       </View>
     );
   };
+
   return (
-    <View style={{backgroundColor: '#dce3e8',flex:1}}>
-      <FlatList
-        snapToInterval={width - 20}
-        contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
-        data={data}
-        renderItem={({item}) => <Card houses={item} />}
-      />
+    <View style={{backgroundColor: '#dce3e8', flex: 1}}>
+      {data.length === 0 ? (
+        <Text style={style.noDataText}>No data found.</Text>
+      ) : (
+        <FlatList
+          snapToInterval={width - 20}
+          contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
+          data={data}
+          renderItem={({item}) => <Card houses={item} />}
+        />
+      )}
     </View>
   );
 };
@@ -201,6 +215,11 @@ const style = StyleSheet.create({
   },
   heartIconContainer: {
     backgroundColor: 'white',
+  },
+  noDataText: {
+    fontSize: 18,
+    alignSelf: 'center',
+    marginTop: 20,
   },
 });
 

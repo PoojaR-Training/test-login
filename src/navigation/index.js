@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { View,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnBoardScreen from '../screens/OnBoardScreen/OnBoardScreen';
@@ -20,30 +21,38 @@ import { useLogin } from '../context/LoginProvider';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  const {isLoggedIn, setIsLoggedIn} = useLogin()
+  const { isLoggedIn, setIsLoggedIn } = useLogin();
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-  const checkToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if(token){
-        setIsLoggedIn(true)
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+        setIsLoading(false); // Mark loading as complete
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false); // Mark loading as complete even if there was an error
       }
-      else{
-        setIsLoggedIn(false)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
 
-  checkToken();
-}, []);
- return(
-isLoggedIn ? <HomeNavigator/> :<LoginNavigator/>
- )
+    checkToken();
+  }, []);
 
- 
+
+  if (isLoading) {
+    return (
+      <View >
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  return isLoggedIn ? <HomeNavigator /> : <LoginNavigator />;
 };
 
 const HomeNavigator =()=>{

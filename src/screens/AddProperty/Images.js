@@ -44,9 +44,8 @@ console.log(arr,'imagepagedata');
   const imagePick = () => {
     try {
       ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true,
+        width: 500,
+        height: 500,
       })
         .then(image => {
           //  console.log('img', image);
@@ -87,25 +86,45 @@ console.log(arr,'imagepagedata');
     }
   };
   const navigate = arr => {
-    
-    if (image) {
-      setCoverError(false);
+
+    if(image && images.length>0){
       arr.push({cover: image});
-     
-    } else {
-      console.log('else');
-      setCoverError(true);
-    }
-    if (images.length > 0) {
       arr.push({property:images});
+      navigation.navigate('Facility', {arr});
+      setCoverError(false);
       setPropertyError(false);
-    } else {
+    }
+    else{
+      setCoverError(true);
       setPropertyError(true);
     }
-    if(covererror==false && propertyError==false) {
-      navigation.navigate('Facility', {arr});
+    if(!image){
+      setCoverError(true);
     }
+    if(images.length<0){
+      setPropertyError(true);
+    }
+    
+   
   };
+  const renderCoverImage = () => {
+    if (image) {
+      return (
+        <Image
+          source={{ uri: image }}
+          style={{
+            height: 150,
+            width: 250,
+            alignSelf: 'center',
+            
+            marginBottom: 5
+          }}
+        />
+      );
+    }
+    return null;
+  };
+  
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
       <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 20}}>
@@ -127,8 +146,9 @@ console.log(arr,'imagepagedata');
         <View
           style={{
             backgroundColor: 'white',
-            flex: 0.3,
+            flex: 0.5,
             margin: 12,
+            marginBottom: 5,
             borderRadius: 8,
           }}>
           {covererror ? (
@@ -137,12 +157,7 @@ console.log(arr,'imagepagedata');
 
           <TouchableOpacity onPress={imagePick}>
             <Text style={styles.txt}>Select Cover Image</Text>
-            {image ? (
-              <Image
-                source={{uri: image}}
-                style={{height: 100, width: 100, alignSelf: 'center'}}
-              />
-            ) : null}
+            {renderCoverImage()}
           </TouchableOpacity>
         </View>
         <View
@@ -219,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-    top: 30,
+  
   },
 
   signintxt: {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -13,32 +13,33 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import COLORS from '../../consts/colors';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const {width} = Dimensions.get('screen');
-const SearchScreen = ({search, activeCategory}) => {
+
+const { width } = Dimensions.get('screen');
+
+const SearchScreen = ({ search, activeCategory }) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
- 
-  let API = `http://192.168.200.136:8000/property/getpropertybycity/${search}`;
 
-    if (activeCategory == 1) {
+  useEffect(() => {
+    fetchData();
+  }, [search, activeCategory]);
+
+  const fetchData = async () => {
+    let API = `http://192.168.200.136:8000/property/getpropertybycity/${search}`;
+
+    if (activeCategory === 1) {
       API = `http://192.168.200.136:8000/property/getpropertybycitytype/house/${search}`;
-    }
-    if (activeCategory == 2) {
+    } else if (activeCategory === 2) {
       API = `http://192.168.200.136:8000/property/getpropertybycitytype/flat/${search}`;
-    }
-    if (activeCategory == 3) {
+    } else if (activeCategory === 3) {
       API = `http://192.168.200.136:8000/property/getpropertybycitytype/farm/${search}`;
-    }
-    if (activeCategory == 4) {
+    } else if (activeCategory === 4) {
       API = `http://192.168.200.136:8000/property/getpropertybycitytype/pg/${search}`;
     }
 
-  const getApiData = async (search) => {
-    console.log(search);
     const token = await AsyncStorage.getItem('token');
-    console.log(API);
     let result = await fetch(API, {
       method: 'GET',
       headers: {
@@ -47,46 +48,49 @@ const SearchScreen = ({search, activeCategory}) => {
       },
     });
     result = await result.json();
-    console.log(result);
     setData(result);
   };
-  useEffect(() => {
-    getApiData(search);
-  }, [activeCategory]);
-  const handleCard = id => {
+
+  const handleCard = (id) => {
     navigation.navigate('DetailHome', {
       id,
     });
   };
- 
-  const Card = ({houses}) => {
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const Card = ({ houses }) => {
     return (
-      <View style={style.card}>
+      <View style={styles.card}>
         <TouchableOpacity onPress={() => handleCard(houses._id)}>
-          <View style={style.imageContainer}>
+          <View style={styles.imageContainer}>
             <ImageBackground
-              source={{uri: houses.coverimage}}
-              style={style.cardImage}
+              source={{ uri: houses.coverimage }}
+              style={styles.cardImage}
               resizeMode="cover"
             />
           </View>
 
-          <View style={{marginTop: 10}}>
+          <View style={{ marginTop: 10 }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginTop: 10,
-              }}>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                {houses.title}
+              }}
+            >
+              <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+                {capitalizeFirstLetter(houses.title)}
               </Text>
               <Text
                 style={{
                   fontWeight: 'bold',
                   color: COLORS.blue,
                   fontSize: 18,
-                }}>
+                }}
+              >
                 ${houses.price}
               </Text>
             </View>
@@ -96,47 +100,57 @@ const SearchScreen = ({search, activeCategory}) => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginTop: 10,
-              }}>
-              <Text style={{fontSize: 16, marginTop: 5}}>
-                {houses.location}
+              }}
+            >
+              <Text style={{ fontSize: 16, marginTop: 5 }}>
+                {capitalizeFirstLetter(houses.location)}
               </Text>
-              <TouchableOpacity >
+              <TouchableOpacity>
                 <Image
-                  style={{height: 30, width: 30}}
+                  style={{ height: 30, width: 30 }}
                   source={
-                    houses.like == true
+                    houses.like === true
                       ? {
-                          uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png',
-                        }
+                        uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png',
+                      }
                       : {
-                          uri: 'https://cdn-icons-png.flaticon.com/128/1077/1077035.png',
-                        }
+                        uri: 'https://cdn-icons-png.flaticon.com/128/1077/1077035.png',
+                      }
                   }
                 />
               </TouchableOpacity>
             </View>
 
-            <View style={{marginTop: 10, flexDirection: 'row'}}>
-              <Text style={{fontSize: 16}}>{houses.address}</Text>
+            <View style={{ marginTop: 10, flexDirection: 'row' }}>
+              <Text style={{ fontSize: 16 }}>{capitalizeFirstLetter(houses.address)}</Text>
             </View>
           </View>
         </TouchableOpacity>
       </View>
     );
   };
+
   return (
-    <View style={{backgroundColor: '#dce3e8', flex: 1}}>
-      <FlatList
-        snapToInterval={width - 20}
-        contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
-        data={data}
-        renderItem={({item}) => <Card houses={item} />}
-      />
+    <View style={{ backgroundColor: '#dce3e8', flex: 1 }}>
+      {data.length === 0 ? (
+        <Text style={styles.noDataText}>No data found.</Text>
+      ) : (
+        <FlatList
+          snapToInterval={width - 20}
+          contentContainerStyle={{ paddingLeft: 20, paddingVertical: 20 }}
+          data={data}
+          renderItem={({ item }) => <Card houses={item} />}
+          keyExtractor={(item) => item._id}
+          ListEmptyComponent={() => (
+            <Text style={styles.noDataText}>No data found.</Text>
+          )}
+        />
+      )}
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   card: {
     height: 330,
     backgroundColor: COLORS.white,
@@ -152,30 +166,14 @@ const style = StyleSheet.create({
     height: 190,
     borderRadius: 15,
   },
-  facility: {flexDirection: 'row'},
-
-  backgroundContainer: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
   imageContainer: {
     position: 'relative',
     flexDirection: 'row',
   },
-
-  heartIcon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 30,
-    height: 30,
-    tintColor: 'white',
-  },
-  heartIconContainer: {
-    backgroundColor: 'white',
+  noDataText: {
+    fontSize: 18,
+    alignSelf: 'center',
+    marginTop: 20,
   },
 });
 

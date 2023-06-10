@@ -17,7 +17,7 @@ import {
 import {SelectList} from 'react-native-dropdown-select-list';
 import {useNavigation} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
-import {useForm, Controller} from 'react-hook-form';
+
 export default function Facility() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -27,12 +27,12 @@ export default function Facility() {
   const radioButtons = useMemo(
     () => [
       {
-        id: '0',
+        id: '1',
         label: 'Yes',
         value: 'yes',
       },
       {
-        id: '1',
+        id: '0',
         label: 'No',
         value: 'no',
       },
@@ -40,23 +40,23 @@ export default function Facility() {
     [],
   );
 
-  const [wifiselected, setwifiSelected] = useState('1');
-  const [lanselected, setlanSelected] = useState('1');
-  const [acselected, setacSelected] = useState('1');
-  const [dryerselected, setdryerSelected] = useState('1');
-  const [tvselected, settvSelected] = useState('1');
-  const [washingmachineselected, settmachineseSelected] = useState('1');
-  const [furnitureselected, setfurnitureSelected] = useState('1');
-  const [kitchenAppliancesselected, setKitchenAppliancesSelected] = useState('1');
-  const [kitchenSelected, setkitchenSelected] = useState('1');
-  const [elevatorSelected, setelevatorSelected] = useState('1');
-  const [housekeeperSelected, sethousekeeperSelected] = useState('1');
-  const [laundrySelected, setlaundrySelected] = useState('1');
-  const [mealSelected, setmealSelected] = useState('1');
-  const [breakfastSelected, setbreakfastSelected] = useState('1');
-  const [parkingSelected, setparkingSelected] = useState('1');
-  const [seaviewSelected, setseaviewSelected] = useState('1');
-  const [securitycameraSelected, setsecuritycameraSelected] = useState('1');
+  const [wifiselected, setwifiSelected] = useState('0');
+  const [lanselected, setlanSelected] = useState('0');
+  const [acselected, setacSelected] = useState('0');
+  const [dryerselected, setdryerSelected] = useState('0');
+  const [tvselected, settvSelected] = useState('0');
+  const [washingmachineselected, settmachineseSelected] = useState('0');
+  const [furnitureselected, setfurnitureSelected] = useState('0');
+  const [kitchenAppliancesselected, setKitchenAppliancesSelected] = useState('0');
+  const [kitchenSelected, setkitchenSelected] = useState('0');
+  const [elevatorSelected, setelevatorSelected] = useState('0');
+  const [housekeeperSelected, sethousekeeperSelected] = useState('0');
+  const [laundrySelected, setlaundrySelected] = useState('0');
+  const [mealSelected, setmealSelected] = useState('0');
+  const [breakfastSelected, setbreakfastSelected] = useState('0');
+  const [parkingSelected, setparkingSelected] = useState('0');
+  const [seaviewSelected, setseaviewSelected] = useState('0');
+  const [securitycameraSelected, setsecuritycameraSelected] = useState('0');
 
   console.log(wifiselected, 'security');
   const navigate = () => {
