@@ -110,7 +110,7 @@ const DetailsScreen1 = ({activeCategory}) => {
             />
           </View>
 
-          <View style={{marginTop: 10}}>
+          <View>
             <View
               style={{
                 flexDirection: 'row',
@@ -134,14 +134,16 @@ const DetailsScreen1 = ({activeCategory}) => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop: 10,
+                
+               marginTop: 10,
+                
               }}>
-              <Text style={{fontSize: 16, marginTop: 5}}>
+              <Text style={{fontSize: 16, }}>
                 {capitalizeFirstLetter(houses.location)}
               </Text>
               <TouchableOpacity onPress={() => likeProperty(houses._id, houses.like)}>
                 <Image
-                  style={{height: 30, width: 30}}
+                  style={{height: 25, width: 25}}
                   source={
                     houses.like ? {uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png'} :
                     {uri: 'https://cdn-icons-png.flaticon.com/128/1077/1077035.png'}
@@ -177,7 +179,7 @@ const DetailsScreen1 = ({activeCategory}) => {
 
 const style = StyleSheet.create({
   card: {
-    height: 330,
+    height: 320,
     backgroundColor: COLORS.white,
     elevation: 10,
     width: width - 40,

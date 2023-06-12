@@ -18,15 +18,15 @@ import Swiper from 'react-native-swiper';
 
 const slides = [
   {
-    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782343/onBoard/onboardImage_kmihqf.jpg',
+    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1686544565/onboard2_pjfihb.webp',
   },
   {
-    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782302/onBoard/onboard2_pi2mwq.webp'},
+    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1686544691/onboardImage_dmwi9v.jpg'},
   {
-    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782721/onBoard/white-and-brown-concrete-building_swf0lr.jpg',
+    image: 'https://media.istockphoto.com/id/1026205392/photo/beautiful-luxury-home-exterior-at-twilight.webp?b=1&s=170667a&w=0&k=20&c=-PZY6ObjW0B-GN0Tgm6gaYKhwYP_KtAgSlGwsTzYUlQ=',
   },
   {
-    image: 'https://res.cloudinary.com/dn1p21zgh/image/upload/v1685782668/onBoard/exterior-home-walkway-home-exterior_slgkvm.jpg',
+    image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGx1eHVyeSUyMGhvdXNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
   },
 ];
 const OnBoardScreen = () => {

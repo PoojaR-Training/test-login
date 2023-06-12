@@ -106,7 +106,7 @@ const UserProfileScreen = ({ navigation }) => {
   const dbimg = data && data.image;
 console.log(dbimg,"profile image saved");
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         backgroundColor: '#dce3e8',
@@ -126,15 +126,15 @@ console.log(dbimg,"profile image saved");
           />
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 0.15, alignItems: 'center' }}>
+      <View style={{ flex: 0.15, alignItems: 'center',marginBottom:7 }}>
         <TouchableOpacity onPress={imagePick}>
           <Image
             source={
               dbimg ? { uri: dbimg } : require('../../assets/person.jpg')
             }
             style={{
-              height: 130,
-              width: 130,
+              height: 150,
+              width: 150,
               borderRadius: 999,
               borderColor: 'black',
               borderWidth: 2,
@@ -157,19 +157,20 @@ console.log(dbimg,"profile image saved");
           <Text style={styles.title}>Contact</Text>
           {data && <Text style={styles.name}>{data.contact}</Text>}
         </View>
+      
+        <TouchableOpacity style={[styles.btncontainer,{marginTop:8}]} onPress={()=>navigation.navigate('Manage')} >
+          <Text style={styles.byntxt}>Manage your Property</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.btncontainer} onPress={checkToken}>
           <Text style={styles.byntxt}>Logout</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btncontainer} >
-          <Text style={styles.byntxt}>Manage your Property</Text>
-        </TouchableOpacity>
+       
       </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
-
 const styles = {
   container: {
     backgroundColor: '#ffffff',

@@ -37,14 +37,16 @@ const ForgetPasswordScreen = () => {
         },
       );
       const result = await response.json();
-      console.log(result);
+    
 
       if (result.error) {
         Alert.alert('Try again', 'Invalid Username or Email');
       } else {
         const id = result._id;
-        navigation.navigate('EmailConfirm', {
-          id,
+        const email =result.email;
+        console.log(email,"Email");
+        navigation.navigate('NewPassword', {
+          id,email
         });
       }
     } catch (error) {
@@ -105,7 +107,7 @@ const ForgetPasswordScreen = () => {
     <TouchableOpacity
             style={styles.buttonstyle}
             onPress={handleSubmit(onSendPress)}>
-            <Text style={styles.signintxt}>Send code</Text>
+            <Text style={styles.signintxt}>Change Password</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onSignInPress}>
             <Text style={styles.fogPw}>Back to SignIn</Text>

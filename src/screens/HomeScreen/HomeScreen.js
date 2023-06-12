@@ -17,7 +17,7 @@ import AddPropertyScreen from '../AddProperty/Addproperty';
 const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
 
-  
+  const color='#21335e'
   return (
 
   <Tab.Navigator screenOptions={{
@@ -42,7 +42,7 @@ const HomeScreen = () => {
                  style={{
                   width:25,
                   height:25,
-                  tintColor:focused? 'red': 'gray'
+                  tintColor:focused? color: 'gray'
                  }}
               />
 
@@ -59,7 +59,7 @@ const HomeScreen = () => {
                  style={{
                   width:28,
                   height:28,
-                  tintColor:focused? 'red': 'gray'
+                  tintColor:focused? color: 'gray'
                  }}
               />
         </View>
@@ -74,7 +74,7 @@ const HomeScreen = () => {
                  style={{
                   width:30,
                   height:30,
-                  tintColor:focused? 'red': 'gray'
+                  tintColor:focused? color: 'gray'
                  }}
               />
 
@@ -93,7 +93,7 @@ const HomeScreen = () => {
                  style={{
                   width:30,
                   height:30,
-                  tintColor:focused? 'red': 'gray'
+                  tintColor:focused? color: 'gray'
                  }}
               />
 

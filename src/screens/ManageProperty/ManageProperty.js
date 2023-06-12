@@ -9,16 +9,18 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
+  Alert
 } from 'react-native';
 const {width} = Dimensions.get('screen');
-import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 import COLORS from '../../consts/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const FavoriteScreen = () => {
+const ManageProperty = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  const isFocuse = useIsFocused();
+  const isFocuse=useIsFocused();
+ 
   const handleCard = id => {
     navigation.navigate('DetailHome', {
       id,
@@ -26,9 +28,10 @@ const FavoriteScreen = () => {
   };
   const getApiData = async () => {
     const token = await AsyncStorage.getItem('token');
-
+    const id = await AsyncStorage.getItem('id');
+    console.log(id);
     let result = await fetch(
-      'http://192.168.200.136:8000/property/getpropertybylike',
+      `http://192.168.200.136:8000/property/getrentedproperty/${id}`,
       {
         method: 'GET',
         headers: {
@@ -43,41 +46,57 @@ const FavoriteScreen = () => {
   };
   useEffect(() => {
     getApiData();
-  }, [isFocuse]);
-  const likeProperty = async (id, like) => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-
-      const response = await fetch(
-        `http://192.168.200.136:8000/property/updatelike/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({like: !like}),
-        },
-      );
-      if (response.ok) {
-        console.log('Property like updated');
-
-        getApiData();
-      } else {
-        console.log('Failed to update property like');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const capitalizeFirstLetter = str => {
+  },[isFocuse]);
+ 
+  const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
+  const deleteProperty = async (id) => {
+    console.log('deleteProperty', id);
+    const token = await AsyncStorage.getItem('token');
+   
+    let result = await fetch(
+      `http://192.168.200.136:8000/property/deleteproperty/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      },
+    );
+    result = await result.json();
 
+    setData(result);
+    if(result.ok) {
+        console.log('deleteProperty success');
+    }
+    else{
+        console.log('deleteProperty error');
+    }
+  }
+  const showDeleteAlert = (id) => {
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to delete this property?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          style: 'destructive',
+          onPress: () => deleteProperty(id),
+        },
+      ],
+    );
+  };
   const Card = ({houses}) => {
+    
     return (
       <View style={style.card}>
-        <TouchableOpacity onPress={() => handleCard(houses._id, houses.like)}>
+        <TouchableOpacity onPress={() => handleCard(houses._id,houses.like)}>
           <View style={style.imageContainer}>
             <ImageBackground
               source={{uri: houses.coverimage}}
@@ -86,7 +105,7 @@ const FavoriteScreen = () => {
             />
           </View>
 
-          <View style={{marginTop: 10}}>
+          <View >
             <View
               style={{
                 flexDirection: 'row',
@@ -110,32 +129,25 @@ const FavoriteScreen = () => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop: 10,
+               marginTop: 5,
+               
               }}>
-              <Text style={{fontSize: 16, marginTop: 5}}>
-                {capitalizeFirstLetter(houses.location)}
+              <Text style={{fontSize: 16, marginTop: 10}}>
+              {capitalizeFirstLetter(houses.location)}
               </Text>
-              <TouchableOpacity
-                onPress={() => likeProperty(houses._id, houses.like)}>
+              <TouchableOpacity onPress={()=>showDeleteAlert(houses._id)}>
                 <Image
-                  style={{height: 25, width: 25}}
-                  source={
-                    houses.like == true
-                      ? {
-                          uri: 'https://cdn-icons-png.flaticon.com/128/833/833472.png',
-                        }
-                      : {
-                          uri: 'https://cdn-icons-png.flaticon.com/128/1077/1077035.png',
-                        }
-                  }
+                  style={{height:40, width: 40}}
+                  source={{
+                    uri: 'https://cdn-icons-png.flaticon.com/128/9790/9790368.png',
+                  }}
+               
                 />
               </TouchableOpacity>
             </View>
 
-            <View style={{marginTop: 10, flexDirection: 'row'}}>
-              <Text style={{fontSize: 16}}>
-                {capitalizeFirstLetter(houses.address)}
-              </Text>
+            <View style={{ flexDirection: 'row'}}>
+              <Text style={{fontSize: 16}}>{capitalizeFirstLetter(houses.address)}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -143,31 +155,34 @@ const FavoriteScreen = () => {
     );
   };
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#9bbad1'}}>
-      <View style={{backgroundColor: '#9bbad1'}}>
+    <SafeAreaView style={{flex: 1,backgroundColor: '#9bbad1'}}>
+      <View
+        style={{ backgroundColor: '#9bbad1', flexDirection:'row'}}>
+              <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image
+            style={{height: 35, width: 35,marginTop:5}}
+            source={require('../../assets/left-arrow.png')}
+          />
+        </TouchableOpacity>
         <Text
           style={{
-            fontSize: 25,
+            fontSize: 22,
             fontWeight: 'bold',
-            margin: 10,
+           margin:10
           }}>
-          WishLists
+          Manage your Rented Property
         </Text>
       </View>
       <View style={{backgroundColor: '#dce3e8', flex: 1}}>
-        {data.length === 0 ? (
-          <Text style={style.noDataText}>No data found.</Text>
-        ) : (
-          <FlatList
-            snapToInterval={width - 20}
-            contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
-            data={data}
-            renderItem={({item}) => <Card houses={item} />}
-            ListEmptyComponent={() => (
-              <Text style={style.noDataText}>No data found.</Text>
-            )}
-          />
-        )}
+        <FlatList
+          snapToInterval={width - 20}
+          contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
+          data={data}
+          renderItem={({item}) => <Card houses={item} />}
+          ListEmptyComponent={() => (
+            <Text style={style.noDataText}>No data found.</Text>
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -220,4 +235,4 @@ const style = StyleSheet.create({
     marginTop: 20,
   },
 });
-export default FavoriteScreen;
+export default ManageProperty;

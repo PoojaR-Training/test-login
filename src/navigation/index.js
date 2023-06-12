@@ -15,6 +15,7 @@ import Property from '../screens/AddProperty/Property';
 import Images from '../screens/AddProperty/Images'
 import Facility from '../screens/AddProperty/Facilty';
 import Owner from '../screens/AddProperty/Owner';
+import ManageProperty from '../screens/ManageProperty/ManageProperty';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLogin } from '../context/LoginProvider';
 
@@ -70,6 +71,7 @@ const HomeNavigator =()=>{
       <Stack.Screen name="Images" component={Images}/>
      <Stack.Screen name="Facility" component={Facility} />
      <Stack.Screen name="Owner" component={Owner} />
+     <Stack.Screen name="Manage" component={ManageProperty} />
       </Stack.Navigator>
     </NavigationContainer>
   );

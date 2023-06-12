@@ -117,12 +117,13 @@ const SignInScreen = () => {
             render={({field: {onChange, onBlur, value}}) => (
               <TextInput
                 placeholder="Password"
-                secureTextEntry={false}
+                secureTextEntry={true}
                 name="password"
                 style={styles.email}
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
+           
               />
             )}
             name="password"
@@ -144,8 +145,8 @@ const SignInScreen = () => {
 
         <View style={{bottom: '-2%'}}>
           <TouchableOpacity onPress={onSignUpPress}>
-          <Text style={{textAlign: 'center'}}>
-            Not a member? <Text style={{color: '#1580FF'}}>Register here</Text>{' '}
+          <Text style={{textAlign: 'center', fontSize:16}}>
+            Not a member? <Text style={{color: '#1580FF', fontSize:16}}>Register here</Text>{' '}
           </Text>
           </TouchableOpacity>
         </View>

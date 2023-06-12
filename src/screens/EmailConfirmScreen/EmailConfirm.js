@@ -8,6 +8,8 @@ const EmailConfirm = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const userId=route.params.id;
+  const email = route.params.email;
+  console.log(email,"emailwojkwdoj");
   const {
     control,
     handleSubmit,

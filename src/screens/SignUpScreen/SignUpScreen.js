@@ -71,7 +71,7 @@ const SignUpScreen = () => {
             rules={{
               required: 'Username is required',
               pattern: {
-                value: /^[A-Za-z][A-Za-z0-9_]{7,29}$/,
+                value: /^[A-Za-z0-9_-]*$/,
                 message: 'Invalid username',
               },
             }}
@@ -199,9 +199,9 @@ const SignUpScreen = () => {
         </View>
         <View style={{bottom: '-1%'}}>
           <TouchableOpacity onPress={onSignUpPress}>
-            <Text style={{textAlign: 'center'}}>
+            <Text style={{textAlign: 'center', fontSize:16}}>
               Already have a account?{' '}
-              <Text style={{color: '#1580FF'}}>Login here</Text>{' '}
+              <Text style={{color: '#1580FF', fontSize:16}}>Login here</Text>{' '}
             </Text>
           </TouchableOpacity>
         </View>

@@ -61,7 +61,7 @@ const NewPasswordScreen = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
       <View style={styles.container}>
         <View style={styles.view1}>
-          <Text style={styles.heading1}>Welcome back </Text>
+          <Text style={styles.heading1}>Set New Password</Text>
         </View>
         <View style={styles.view2}>
           <Controller
@@ -82,6 +82,7 @@ const NewPasswordScreen = () => {
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
+                secureTextEntry={true}
               />
             )}
             name="password"
@@ -99,7 +100,7 @@ const NewPasswordScreen = () => {
             render={({field: {onChange, onBlur, value}}) => (
               <TextInput
                 placeholder="Confirm Password"
-                secureTextEntry={false}
+                secureTextEntry={true}
                 name="confirmPassword"
                 style={styles.email}
                 value={value}

@@ -251,14 +251,14 @@ const DetailHomeScreen = () => {
                     style={{fontSize: 16, fontWeight: 'bold', marginTop: 10}}>
                     Owner Contact: {data.ownercontact}
                   </Text>
-                  <View style={{ flexDirection: 'row',margin:20}}>
+                  <View style={{ flexDirection: 'row',}}>
                     <Image
                       style={style.image}
                       source={require('../../assets/person.jpg')}
                     />
                     <Text style={style.text}>{data.ownername}</Text>
                     <View
-                      style={{flexDirection: 'row', alignContent: 'flex-end'}}>
+                      style={{flexDirection: 'row', alignContent: 'flex-end', justifyContent:'space-around'}}>
                       <TouchableOpacity onPress={callme} >
                         <Image
                           style={{
@@ -286,10 +286,10 @@ const DetailHomeScreen = () => {
                     </View>
                     
                   </View>
-                  <Text style={{fontSize: 20, marginBottom: 10,fontWeight:'bold'}}>
+                  <Text style={{fontSize: 20,fontWeight:'bold',marginBottom:5}}>
                   Monthly Rent : ${data.price}
                 </Text>
-                <Text style={{fontSize: 14, marginBottom: 10,}}>
+                <Text style={{fontSize: 14}}>
                   Please contatct to owner to book the property
                 </Text>
                 </View>

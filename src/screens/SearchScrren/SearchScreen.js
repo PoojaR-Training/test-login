@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import COLORS from '../../consts/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('screen');
@@ -21,7 +21,7 @@ const { width } = Dimensions.get('screen');
 const SearchScreen = ({ search, activeCategory }) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     fetchData();
   }, [search, activeCategory]);
@@ -56,7 +56,7 @@ const SearchScreen = ({ search, activeCategory }) => {
       id,
     });
   };
-
+  
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
@@ -105,9 +105,9 @@ const SearchScreen = ({ search, activeCategory }) => {
               <Text style={{ fontSize: 16, marginTop: 5 }}>
                 {capitalizeFirstLetter(houses.location)}
               </Text>
-              <TouchableOpacity>
+             
                 <Image
-                  style={{ height: 30, width: 30 }}
+                  style={{ height: 25, width: 25}}
                   source={
                     houses.like === true
                       ? {
@@ -118,11 +118,11 @@ const SearchScreen = ({ search, activeCategory }) => {
                       }
                   }
                 />
-              </TouchableOpacity>
+             
             </View>
 
             <View style={{ marginTop: 10, flexDirection: 'row' }}>
-              <Text style={{ fontSize: 16 }}>{capitalizeFirstLetter(houses.address)}</Text>
+              <Text style={{ fontSize: 16 }}>{houses.address}</Text>
             </View>
           </View>
         </TouchableOpacity>
