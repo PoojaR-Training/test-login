@@ -132,12 +132,12 @@ const ManageProperty = () => {
                marginTop: 5,
                
               }}>
-              <Text style={{fontSize: 16, marginTop: 10}}>
+              <Text style={{fontSize: 16, marginTop: 5}}>
               {capitalizeFirstLetter(houses.location)}
               </Text>
               <TouchableOpacity onPress={()=>showDeleteAlert(houses._id)}>
                 <Image
-                  style={{height:40, width: 40}}
+                  style={{height:35, width: 35}}
                   source={{
                     uri: 'https://cdn-icons-png.flaticon.com/128/9790/9790368.png',
                   }}

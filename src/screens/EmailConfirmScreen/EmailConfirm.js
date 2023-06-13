@@ -1,37 +1,69 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView,TextInput,Image,TouchableOpacity,SafeAreaView} from 'react-native';
-import CustomButton from '../../components/CustomButton';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { Controller,useForm } from 'react-hook-form';
+import {Controller, useForm} from 'react-hook-form';
 import {useRoute} from '@react-navigation/native';
 const EmailConfirm = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const userId=route.params.id;
-  const email = route.params.email;
-  console.log(email,"emailwojkwdoj");
+  const userId = route.params.id;
+  const otp_origin = route.params.result;
+ // console.log(otp_origin, 'emailwojkwdoj');
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm();
 
-  const onResendCodePress = () => {
-    navigation.navigate('NewPassword',{
-      userId,
-    })
+  const onResendCodePress = async data => {
+    try {
+    
+      const response = await fetch(
+        `http://192.168.200.136:8000/forgot/verifyotp/${otp_origin}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        },
+      );
+      const result = await response.json();
+
+      
+      if (result.error) {
+        Alert.alert('Try again', 'Invalid Otp');
+      } else {
+        console.log('success');
+        navigation.navigate('NewPassword',{
+          userId,
+        })
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   const onSignInPress = () => {
     navigation.navigate('SignIn');
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#d5e0e8'}}>
-    <View style={styles.container}>
-      <View style={styles.view1}>
-        <Text style={styles.heading1}>Confirm Email </Text>
-      </View>
-      <View style={styles.view2}>
-        <Controller
+      <View style={styles.container}>
+        <View style={styles.view1}>
+          <Text style={styles.heading1}>Confirm Email </Text>
+        </View>
+        <View style={styles.view2}>
+          <Controller
             control={control}
             rules={{
               required: 'Code is required',
@@ -51,23 +83,19 @@ const EmailConfirm = () => {
           {errors.code && (
             <Text style={styles.error}>{errors.code.message}</Text>
           )}
-    
-  
-    <TouchableOpacity
+
+          <TouchableOpacity
             style={styles.buttonstyle}
             onPress={handleSubmit(onResendCodePress)}>
             <Text style={styles.signintxt}>Submit</Text>
           </TouchableOpacity>
-       
-       
+
           <TouchableOpacity onPress={onSignInPress}>
             <Text style={styles.fogPw}>Back to SignIn</Text>
           </TouchableOpacity>
-          </View>
-        
+        </View>
       </View>
-      </SafeAreaView>
-   
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -96,7 +124,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: '20%',
     top: 3,
-    backgroundColor:'red'
+    backgroundColor: 'red',
   },
   email: {
     height: 55,
@@ -105,14 +133,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     backgroundColor: 'white',
-  
   },
   fogPw: {
     textAlign: 'right',
-    alignSelf:'center',
+    alignSelf: 'center',
     top: 30,
     color: 'grey',
-    fontWeight:'bold',
+    fontWeight: 'bold',
   },
   buttonstyle: {
     borderRadius: 10,

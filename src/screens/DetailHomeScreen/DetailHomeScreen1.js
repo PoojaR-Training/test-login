@@ -68,11 +68,11 @@ const DetailHomeScreen = () => {
           flex: 0.1,
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: windowHeight / 20,
+          marginTop: windowHeight / 35,
         }}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image
-            style={{height: 35, width: 35}}
+            style={{height: 35, width: 35,margin:5}}
             source={require('../../assets/left-arrow.png')}
           />
         </TouchableOpacity>

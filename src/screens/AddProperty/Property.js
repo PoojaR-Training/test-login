@@ -22,7 +22,9 @@ const Property = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const selected = route.params.selected;
-  
+  const city =[
+    
+  ]
   const {
     control,
     handleSubmit,
@@ -52,7 +54,7 @@ const Property = () => {
   //console.log(data,"data");
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
-      <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 20}}>
+      <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 30}}>
         <Text
           style={{
             fontSize: 25,
@@ -206,11 +208,7 @@ const Property = () => {
           <Controller
             control={control}
             rules={{
-              required: 'Area is required',
-              pattern: {
-                value:  /^\d+$/,
-                message: 'Invalid Area',
-              },
+              required: 'Area is required'
             }}
             render={({field: {value,onChange}}) => (
               <TextInput

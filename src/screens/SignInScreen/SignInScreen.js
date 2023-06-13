@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   StyleSheet,
   ScrollView,
-  TextInput,
+ TextInput,
   Alert,
   SafeAreaView,
   TouchableOpacity,
@@ -101,13 +101,16 @@ const SignInScreen = () => {
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
+              
               />
             )}
             name="username"
           />
+         
           {errors.username && (
             <Text style={styles.error}>{errors.username.message}</Text>
           )}
+       
 
           <Controller
             control={control}
@@ -123,14 +126,16 @@ const SignInScreen = () => {
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
-           
+             
               />
             )}
             name="password"
           />
+
           {errors.password && (
             <Text style={styles.error}>{errors.password.message}</Text>
           )}
+          
           <TouchableOpacity onPress={onForgetPress}>
             <Text style={styles.fogPw}>Forgot Password?</Text>
           </TouchableOpacity>

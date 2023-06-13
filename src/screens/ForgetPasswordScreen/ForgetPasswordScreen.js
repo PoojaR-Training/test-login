@@ -10,6 +10,7 @@ import {
   Alert,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator
 } from 'react-native';
 
 import CustomButton from '../../components/CustomButton';
@@ -17,7 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 const ForgetPasswordScreen = () => {
   const navigation = useNavigation();
-
+  const [loading, setLoading] = useState(false); // Loading state
   const {
     control,
     handleSubmit,
@@ -26,6 +27,7 @@ const ForgetPasswordScreen = () => {
 
   const onSendPress = async data => {
     try {
+      setLoading(true); // Start loading
       const response = await fetch(
         'http://192.168.200.136:8000/forgot/forgetpassword',
         {
@@ -42,11 +44,10 @@ const ForgetPasswordScreen = () => {
       if (result.error) {
         Alert.alert('Try again', 'Invalid Username or Email');
       } else {
+        setLoading(false);
         const id = result._id;
-        const email =result.email;
-        console.log(email,"Email");
-        navigation.navigate('NewPassword', {
-          id,email
+        navigation.navigate('EmailConfirm', {
+          id,result
         });
       }
     } catch (error) {
@@ -113,7 +114,11 @@ const ForgetPasswordScreen = () => {
             <Text style={styles.fogPw}>Back to SignIn</Text>
           </TouchableOpacity>
           </View>
-        
+          {loading && (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#000000" />
+        </View>
+      )}
       </View>
       </SafeAreaView>
    
@@ -183,6 +188,12 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginLeft: 12,
+  },
+  loaderContainer: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default ForgetPasswordScreen;

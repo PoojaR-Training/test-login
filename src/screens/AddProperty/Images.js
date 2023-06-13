@@ -127,7 +127,7 @@ console.log(arr,'imagepagedata');
   
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
-      <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 20}}>
+      <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 30}}>
         <Text
           style={{
             fontSize: 25,
