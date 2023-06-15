@@ -19,17 +19,11 @@ import {useForm, Controller} from 'react-hook-form';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useRoute} from '@react-navigation/native';
 const AddPropertyScreen = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm();
-
   const route = useRoute();
   const data = route.params.data;
-const selected =route.params.selected
-console.log(data,"dataimage");
-console.log(selected,"selected");
+  const selected = route.params.selected;
+  console.log(data, 'dataimage');
+  console.log(selected, 'selected');
   const navigation = useNavigation();
   const windowHeight = Dimensions.get('window').height;
   const [image, setImage] = useState();
@@ -39,8 +33,8 @@ console.log(selected,"selected");
   const [navigateTo, setNavigateTo] = useState(false);
   const arr = [];
   arr.push(data);
-  arr.push({type:selected});
-console.log(arr,'imagepagedata');
+  arr.push({type: selected});
+  console.log(arr, 'imagepagedata');
   const imagePick = () => {
     try {
       ImagePicker.openPicker({
@@ -66,7 +60,7 @@ console.log(arr,'imagepagedata');
       ImagePicker.openPicker({
         width: 300,
         height: 400,
-        multiple: 'true',
+        multiple: true,
       })
         .then(response => {
           console.log('img', response);
@@ -86,45 +80,41 @@ console.log(arr,'imagepagedata');
     }
   };
   const navigate = arr => {
-
-    if(image && images.length>0){
+    if (image && images.length > 0) {
       arr.push({cover: image});
-      arr.push({property:images});
+      arr.push({property: images});
       navigation.navigate('Facility', {arr});
       setCoverError(false);
       setPropertyError(false);
-    }
-    else{
+    } else {
       setCoverError(true);
       setPropertyError(true);
     }
-    if(!image){
+    if (!image) {
       setCoverError(true);
     }
-    if(images.length<0){
+    if (images.length < 0) {
       setPropertyError(true);
     }
-    
-   
   };
   const renderCoverImage = () => {
     if (image) {
       return (
         <Image
-          source={{ uri: image }}
+          source={{uri: image}}
           style={{
             height: 150,
             width: 250,
             alignSelf: 'center',
-            
-            marginBottom: 5
+
+            marginBottom: 5,
           }}
         />
       );
     }
     return null;
   };
-  
+
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
       <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 30}}>
@@ -234,7 +224,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-  
   },
 
   signintxt: {

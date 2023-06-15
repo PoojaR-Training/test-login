@@ -137,6 +137,7 @@ const DetailHomeScreen = () => {
                 }}>
                 About
               </Text>
+            
               {data && (
                 <Text
                   style={{fontSize: 16, maxHeight: 90, textAlign: 'justify'}}>
@@ -162,7 +163,10 @@ const DetailHomeScreen = () => {
               renderItem={({item}) => <InteriorCard interior={item} />}
             />
 
-            <View style={style.footer}>
+          
+          </View>
+        </ScrollView>
+        <View style={style.footer}>
               <View>
                 {data && (
                   <Text
@@ -178,128 +182,17 @@ const DetailHomeScreen = () => {
                   Total Price
                 </Text>
               </View>
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TouchableOpacity onPress={()=>navigation.navigate('Rent',{id})} >
                 <View style={style.bookNowBtn}>
                   <Text style={{color: COLORS.white, fontSize: 16}}>
-                    Book Now
+                    Rent Now
                   </Text>
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
-        </ScrollView>
       </View>
 
-      <Modal
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={style.centerView}>
-          <View style={style.modalView}>
-            {data && (
-              <>
-                <View
-                  style={{
-                    backgroundColor: '#66a7c4',
-                    flex: 0.40,
-                    borderRadius: 25,
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                      textAlign: 'justify',
-                      marginTop: 20,
-                    }}>
-                    Property Name: {data.title}
-                  </Text>
-
-                  <Text
-                    style={{fontSize: 20, fontWeight: 'bold', marginTop: 10}}>
-                    Property Type : {data.type}
-                  </Text>
-                  <Text
-                    style={{fontSize: 20, fontWeight: 'bold', marginTop: 10}}>
-                    Location: {data.location}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    backgroundColor: '#b0c8d4',
-                    flex: 0.70,
-                    borderRadius: 25,
-                    marginTop: 10,
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 24,
-                      margin: 10,
-                      fontWeight: 'bold',
-                      textAlign: 'justify',
-                    }}>
-                    Owner Info
-                  </Text>
-                  <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                    Owner Name: {data.ownername}
-                  </Text>
-                  <Text
-                    style={{fontSize: 16, fontWeight: 'bold', marginTop: 10}}>
-                    Owner Email: {data.owneremail}
-                  </Text>
-                  <Text
-                    style={{fontSize: 16, fontWeight: 'bold', marginTop: 10}}>
-                    Owner Contact: {data.ownercontact}
-                  </Text>
-                  <View style={{ flexDirection: 'row',}}>
-                    <Image
-                      style={style.image}
-                      source={require('../../assets/person.jpg')}
-                    />
-                    <Text style={style.text}>{data.ownername}</Text>
-                    <View
-                      style={{flexDirection: 'row', alignContent: 'flex-end', justifyContent:'space-around'}}>
-                      <TouchableOpacity onPress={callme} >
-                        <Image
-                          style={{
-                            height: 30,
-                            width: 30,
-                            marginTop: 40,
-                            tintColor: 'green',
-                            marginLeft: 50,
-                          }}
-                          source={require('../../assets/phone-call.png')}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={openComposer}>
-                        <Image
-                          style={{
-                            height: 30,
-                            width: 30,
-                            marginTop: 40,
-                            tintColor: 'blue',
-                            marginLeft: 20,
-                          }}
-                          source={require('../../assets/comment.png')}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    
-                  </View>
-                  <Text style={{fontSize: 20,fontWeight:'bold',marginBottom:5}}>
-                  Monthly Rent : ${data.price}
-                </Text>
-                <Text style={{fontSize: 14}}>
-                  Please contatct to owner to book the property
-                </Text>
-                </View>
-              
-              </>
-            )}
-            <Button title="Close" onPress={() => setModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
+      
     </View>
   );
 };
@@ -369,12 +262,15 @@ const style = StyleSheet.create({
   },
   footer: {
     height: 70,
-    borderRadius: 10,
+    
+    borderRadius: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
+   
+   backgroundColor:'#b0c5d4'
   },
   bookNowBtn: {
     height: 50,

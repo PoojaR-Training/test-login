@@ -23,7 +23,11 @@ const Property = () => {
   const route = useRoute();
   const selected = route.params.selected;
   const city =[
-    
+    {key: 'ahemdabad', value:'Ahemdabad'},
+    {key: 'rajkot', value:'Rajkot'},
+    {key: 'surat', value:'Surat'},
+    {key: 'baroda', value:'Baroda'},
+    {key: 'gandhinagar', value:'Gandhinagar'},
   ]
   const {
     control,
@@ -48,10 +52,9 @@ const Property = () => {
   data.push({price: price});
   data.push({area: area});
   const navigate = (data) => {
-    console.log(data,'propertiespagedata');
     navigation.navigate('Images',{data,selected});
   };
-  //console.log(data,"data");
+ 
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
       <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 30}}>
@@ -138,7 +141,7 @@ const Property = () => {
             }}
             render={({field: {value,onChange}}) => (
               <TextInput
-                placeholder="Enter Rent of Property"
+                placeholder="Enter Rent of Property/Month"
                 name="price"
                 value={value}
                 style={styles.txtbox}

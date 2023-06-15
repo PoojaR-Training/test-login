@@ -36,7 +36,7 @@ const Header = ({ updateLikedProperties, likedProperties }) => {
              <View style={ style.searchInputContainer1 }>
               <TextInput
                 placeholder="Search by city"
-                style={{fontSize: 18}}
+                style={{fontSize: 14}}
                 value={input}
                 onChangeText={(text) =>setInput(text)}
                 onSubmitEditing={()=>setSearch(input)}

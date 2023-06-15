@@ -5,7 +5,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  PermissionsAndroid
+  PermissionsAndroid,
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -15,7 +17,7 @@ import {useLogin} from '../../context/LoginProvider';
 
 const UserProfileScreen = ({navigation}) => {
   const [data, setData] = useState({image: null});
-
+  const [loading, setLoading] = useState(false); 
   const {isLoggedIn, setIsLoggedIn} = useLogin();
 
   async function checkToken() {
@@ -58,20 +60,25 @@ const UserProfileScreen = ({navigation}) => {
 
   const imagePick = async () => {
     try {
+      setLoading(true);
         ImagePicker.openPicker({
           width: 300,
           height: 400,
           cropping: true,
+          
         })
           .then((image) => {
             console.log('img', image);
             storeImage(image.path);
+            setLoading(false);
           })
+          
           .catch((error) => {
             Alert.alert('Try again', 'Image selection cancelled');
             console.log('Image selection cancelled', error);
+            setLoading(false);
           });
-    
+         
     } catch (err) {
       console.log(err);
       Alert.alert('Try again', 'Profile image not updated');
@@ -183,10 +190,15 @@ const UserProfileScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {loading && (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#000000" />
+        </View>
+      )}
     </View>
   );
 };
-const styles = {
+const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     padding: 10,
@@ -226,6 +238,12 @@ const styles = {
     padding: 4,
     marginBottom: 10,
   },
-};
+  loaderContainer: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default UserProfileScreen;
