@@ -13,11 +13,9 @@ import UserProfileScreen from '../ProfileScreen/ProfileScreen';
 import FavoriteScreen from '../FavriouteScreen/FavriouteScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import AddPropertyScreen from '../AddProperty/Addproperty';
-//import { Text } from 'react-native-svg';
+
 const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
-
-  const color='#21335e'
   return (
 
   <Tab.Navigator screenOptions={{

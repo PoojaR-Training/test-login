@@ -38,14 +38,109 @@ const RentNowScreen = () => {
   const [selectedRentFrom, setSelectedRentFrom] = useState(null);
   const [selectedRentTo, setSelectedRentTo] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [error, setError] = useState(false);
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-    watch,
-    
-  } = useForm();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = () => {
+    console.log('open modal');
+    return (
+      <Modal visible={isChecked} onRequestClose={closeModal}>
+        <View style={styles.centerView}>
+          <View style={styles.modalView}>
+          <View
+                style={{
+                  flex: 1,
+                  margin: 5,
+                  marginLeft: 0,
+                  justifyContent: 'center',
+                }}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={'Select Date to Rent FROM'}
+                  editable={false}
+                  value={
+                    selectedRentFrom
+                      ? `Rent From: ${convert(selectedRentFrom.toString())}`
+                      : ''
+                  }
+                  onPressIn={() => {
+                    setOpen(!open);
+                    setActiveField('from');
+                  }}
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder={'Select Date to Rent TO'}
+                  editable={false}
+                  value={
+                    selectedRentTo
+                      ? `Rent To: ${convert(selectedRentTo.toString())}`
+                      : ''
+                  }
+                  onPressIn={() => {
+                    setOpen(!open);
+                    setActiveField('to');
+                  }}
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder={'Select Date and time for metting'}
+                  editable={false}
+                  value={selectedTime ? `Meeting time: ${selectedTime}` : ''}
+                  onPressIn={() => {
+                    setDateTimeOpen(!dateTimeOpen);
+                  }}
+                />
+
+                <TouchableOpacity
+                  style={styles.btncontainer}
+                  onPress={navigate}>
+                  <Text style={styles.byntxt}>Send Email to Owner </Text>
+                </TouchableOpacity>
+                {open && (
+                  <DatePicker
+                    modal={true}
+                    date={date}
+                    onDateChange={setDate}
+                    mode="date"
+                    onConfirm={handleDateConfirm}
+                    open={open}
+                    onCancel={() => {
+                      setOpen(false);
+                    }}
+                    minimumDate={new Date()}
+                    //maximumDate={endOfYear(new Date())}
+                  />
+                )}
+                {dateTimeOpen && (
+                  <DatePicker
+                    modal
+                    open={dateTimeOpen}
+                    date={date}
+                    onConfirm={date => {
+                      setDateTimeOpen(false);
+                      setSelectedTime(date);
+                    }}
+                    onCancel={() => {
+                      setDateTimeOpen(false);
+                    }}
+                  />
+                )}
+              </View>
+
+            <Button title="Close" onPress={closeModal} />
+          </View>
+        </View>
+      </Modal>
+    );
+    //setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsChecked(false);
+  };
+
   const getApiData = async () => {
     const token = await AsyncStorage.getItem('token');
     result = await fetch(
@@ -84,55 +179,56 @@ const RentNowScreen = () => {
       day = ('0' + date.getDate()).slice(-2);
     return [date.getFullYear(), mnth, day].join('-');
   };
- 
+
   const capitalizeFirstLetter = str => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
-
-
-  const navigate =async () => {
+  const navigate = async () => {
     try {
-    if(selectedRentFrom==null || selectedRentTo==null || selectedTime==null){
-      Alert.alert("Please select Date & Time");
-    }
-    else{
-      const token = await AsyncStorage.getItem('token');
-      const id = await AsyncStorage.getItem('id');
-      const response = await fetch(
-        `http://192.168.200.136:8000/users/userbyid/${id}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          }
-        },
-      );
+      if (
+        selectedRentFrom == null ||
+        selectedRentTo == null ||
+        selectedTime == null
+      ) {
+        Alert.alert('Please select Date & Time');
+      } else {
+        const token = await AsyncStorage.getItem('token');
+        const id = await AsyncStorage.getItem('id');
+        const response = await fetch(
+          `http://192.168.200.136:8000/users/userbyid/${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token,
+            },
+          },
+        );
 
-      const result = await response.json();
-      //console.log(result.username,'res');
-   
-    const arr=[];
-    arr.push({name:result.username});
-    arr.push({email:result.email});
-    arr.push({from:convert(selectedRentFrom)})
-    arr.push({to:convert(selectedRentTo)})
-    arr.push({time:selectedTime})  
-    arr.push({property:capitalizeFirstLetter(data&&data.type)})
-    arr.push({location:capitalizeFirstLetter(data&&data.location)});
-    console.log(arr)
-    sendRequest(arr);
-  }
+        const result = await response.json();
+        //console.log(result.username,'res');
+
+        const arr = [];
+        arr.push({name: result.username});
+        arr.push({email: result.email});
+        arr.push({from: convert(selectedRentFrom)});
+        arr.push({to: convert(selectedRentTo)});
+        arr.push({time: selectedTime});
+        arr.push({property: capitalizeFirstLetter(data && data.type)});
+        arr.push({location: capitalizeFirstLetter(data && data.location)});
+        console.log(arr);
+        sendRequest(arr);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const sendRequest =async(arr) => {
-    try{
+  const sendRequest = async arr => {
+    try {
       console.log(arr);
-      const owneremail=data&&data.owneremail;
+      const owneremail = data && data.owneremail;
       const token = await AsyncStorage.getItem('token');
       const response = await fetch(
         `http://192.168.200.136:8000/property/sendrequest/${owneremail}`,
@@ -156,8 +252,7 @@ const RentNowScreen = () => {
         Alert.alert('Success', 'Success');
         console.log('successssss');
       }
-      
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
@@ -237,7 +332,6 @@ const RentNowScreen = () => {
                   <View style={[styles.column]}>
                     <Text style={styles.data}>{data.ownercontact}</Text>
                   </View>
-                  
                 </View>
                 <View style={styles.row}>
                   <View style={styles.column}>
@@ -259,90 +353,7 @@ const RentNowScreen = () => {
               rightTextStyle={{fontSize: 15, color: 'black'}}
             />
           </View>
-
-          {isChecked === true ? (
-            <>
-              <View style={{flex: 1, margin: 5, marginLeft:15}}>
-           
-                <TextInput
-                  style={styles.input}
-                  placeholder={'Select Date to Rent FROM'}
-                  editable={false}
-                  value={
-                    selectedRentFrom
-                      ? `Rent From: ${convert(selectedRentFrom.toString())}`
-                      : ''
-                  }
-                 
-                  onPressIn={() => {
-                    setOpen(!open);
-                    setActiveField('from');
-                  }}
-                />
-               
-                <TextInput
-                  style={styles.input}
-                  placeholder={'Select Date to Rent TO'}
-                  editable={false}
-                  value={
-                    selectedRentTo
-                      ? `Rent To: ${convert(selectedRentTo.toString())}`
-                      : ''
-                  }
-                 
-                  onPressIn={() => {
-                    setOpen(!open);
-                    setActiveField('to');
-                  }}
-                />
-               
-                <TextInput
-                  style={styles.input}
-                  placeholder={'Select Date and time for metting'}
-                  editable={false}
-                  value={selectedTime ? `Meeting time: ${selectedTime}` : ''}
-                  onPressIn={() => {
-                    setDateTimeOpen(!dateTimeOpen);
-                  }}
-                />
-                
-                <TouchableOpacity
-                  style={styles.btncontainer}
-                  onPress={handleSubmit(navigate)}>
-                  <Text style={styles.byntxt}>Send Email to Owner </Text>
-                </TouchableOpacity>
-                {open && (
-                  <DatePicker
-                    modal={true}
-                    date={date}
-                    onDateChange={setDate}
-                    mode="date"
-                    onConfirm={handleDateConfirm}
-                    open={open}
-                    onCancel={() => {
-                      setOpen(false);
-                    }}
-                    minimumDate={new Date()}
-                    //maximumDate={endOfYear(new Date())}
-                  />
-                )}
-                {dateTimeOpen && (
-                  <DatePicker
-                    modal
-                    open={dateTimeOpen}
-                    date={date}
-                    onConfirm={date => {
-                      setDateTimeOpen(false);
-                      setSelectedTime(date);
-                    }}
-                    onCancel={() => {
-                      setDateTimeOpen(false);
-                    }}
-                  />
-                )}
-              </View>
-            </>
-          ) : null}
+          {isChecked == true ? openModal() : null}
         </ScrollView>
       </View>
     </View>
@@ -372,15 +383,18 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 15,
     backgroundColor: 'transparent',
-   // alignSelf: 'center',
-    borderBottomWidth: 1,
-    width: '80%',
-    padding: 10,
+    alignSelf: 'center',
+    borderWidth: 1,
+    width: '90%',
+    margin:15,
+    padding: 20,
+    borderRadius: 15,
+    justifyContent: 'center',
     //paddingHorizontal:20
   },
   byntxt: {
     color: 'white',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -388,15 +402,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignSelf: 'center',
-    height: 50,
+    height: 65,
     width: '70%',
     borderRadius: 25,
-    padding: 4,
+    padding: 10,
     marginTop: 15,
   },
   error: {
     color: 'red',
     marginLeft: 15,
+  },
+  centerView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+    backgroundColor: '#adb5ba'
+  },
+  modalView: {
+    padding: 10,
+    margin: 10,
+    width: '80%',
+    borderRadius: 20,
+    height: '80%',
+   backgroundColor:'#fff',
   },
 });
 

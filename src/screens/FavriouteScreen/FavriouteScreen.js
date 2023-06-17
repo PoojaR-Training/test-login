@@ -26,7 +26,7 @@ const FavoriteScreen = () => {
   };
   const getApiData = async () => {
     const token = await AsyncStorage.getItem('token');
-
+    
     let result = await fetch(
       'http://192.168.200.136:8000/property/getpropertybylike',
       {
@@ -44,6 +44,8 @@ const FavoriteScreen = () => {
   useEffect(() => {
     getApiData();
   }, [isFocuse]);
+
+  
   const likeProperty = async (id, like) => {
     try {
       const token = await AsyncStorage.getItem('token');

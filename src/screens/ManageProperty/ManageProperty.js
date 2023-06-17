@@ -9,18 +9,18 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
-  Alert
+  Alert,
 } from 'react-native';
 const {width} = Dimensions.get('screen');
-import {useNavigation,useIsFocused} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import COLORS from '../../consts/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ManageProperty = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  const isFocuse=useIsFocused();
- 
+  const isFocuse = useIsFocused();
+
   const handleCard = id => {
     navigation.navigate('DetailHome', {
       id,
@@ -46,15 +46,15 @@ const ManageProperty = () => {
   };
   useEffect(() => {
     getApiData();
-  },[isFocuse]);
- 
-  const capitalizeFirstLetter = (str) => {
+  }, [isFocuse]);
+
+  const capitalizeFirstLetter = str => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
-  const deleteProperty = async (id) => {
+  const deleteProperty = async id => {
     console.log('deleteProperty', id);
     const token = await AsyncStorage.getItem('token');
-   
+
     let result = await fetch(
       `http://192.168.200.136:8000/property/deleteproperty/${id}`,
       {
@@ -66,16 +66,12 @@ const ManageProperty = () => {
       },
     );
     result = await result.json();
-
+    console.log(result, 'result....');
     setData(result);
-    if(result.ok) {
-        console.log('deleteProperty success');
-    }
-    else{
-        console.log('deleteProperty error');
-    }
-  }
-  const showDeleteAlert = (id) => {
+    getApiData();
+    Alert.alert('Success', 'Your Property has been Deleted Successfully');
+  };
+  const showDeleteAlert = id => {
     Alert.alert(
       'Confirmation',
       'Are you sure you want to delete this property?',
@@ -93,10 +89,9 @@ const ManageProperty = () => {
     );
   };
   const Card = ({houses}) => {
-    
     return (
       <View style={style.card}>
-        <TouchableOpacity onPress={() => handleCard(houses._id,houses.like)}>
+        <TouchableOpacity onPress={() => handleCard(houses._id, houses.like)}>
           <View style={style.imageContainer}>
             <ImageBackground
               source={{uri: houses.coverimage}}
@@ -105,7 +100,7 @@ const ManageProperty = () => {
             />
           </View>
 
-          <View >
+          <View>
             <View
               style={{
                 flexDirection: 'row',
@@ -129,25 +124,25 @@ const ManageProperty = () => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-               marginTop: 5,
-               
+                marginTop: 5,
               }}>
               <Text style={{fontSize: 16, marginTop: 5}}>
-              {capitalizeFirstLetter(houses.location)}
+                {capitalizeFirstLetter(houses.location)}
               </Text>
-              <TouchableOpacity onPress={()=>showDeleteAlert(houses._id)}>
+              <TouchableOpacity onPress={() => showDeleteAlert(houses._id)}>
                 <Image
-                  style={{height:35, width: 35}}
+                  style={{height: 35, width: 35}}
                   source={{
                     uri: 'https://cdn-icons-png.flaticon.com/128/9790/9790368.png',
                   }}
-               
                 />
               </TouchableOpacity>
             </View>
 
-            <View style={{ flexDirection: 'row'}}>
-              <Text style={{fontSize: 16}}>{capitalizeFirstLetter(houses.address)}</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{fontSize: 16}}>
+                {capitalizeFirstLetter(houses.address)}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -155,12 +150,11 @@ const ManageProperty = () => {
     );
   };
   return (
-    <SafeAreaView style={{flex: 1,backgroundColor: '#9bbad1'}}>
-      <View
-        style={{ backgroundColor: '#9bbad1', flexDirection:'row'}}>
-              <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#9bbad1'}}>
+      <View style={{backgroundColor: '#9bbad1', flexDirection: 'row'}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image
-            style={{height: 35, width: 35,marginTop:5}}
+            style={{height: 35, width: 35, marginTop: 5}}
             source={require('../../assets/left-arrow.png')}
           />
         </TouchableOpacity>
@@ -168,7 +162,7 @@ const ManageProperty = () => {
           style={{
             fontSize: 22,
             fontWeight: 'bold',
-           margin:10
+            margin: 10,
           }}>
           Manage your Rented Property
         </Text>

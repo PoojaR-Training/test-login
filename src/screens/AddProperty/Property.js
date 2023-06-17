@@ -22,19 +22,21 @@ const Property = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const selected = route.params.selected;
-  const city =[
-    {key: 'ahemdabad', value:'Ahemdabad'},
-    {key: 'rajkot', value:'Rajkot'},
-    {key: 'surat', value:'Surat'},
-    {key: 'baroda', value:'Baroda'},
-    {key: 'gandhinagar', value:'Gandhinagar'},
-  ]
+  const city = [
+    {key: 'ahemdabad', value: 'Ahemdabad'},
+    {key: 'rajkot', value: 'Rajkot'},
+    {key: 'surat', value: 'Surat'},
+    {key: 'baroda', value: 'Baroda'},
+    {key: 'gandhinagar', value: 'Gandhinagar'},
+  ];
+  const [citySelected,setCitySelected] =useState();
+  const [error,setError] =useState(false);
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm();
-  
+
   const data = [];
 
   const [title, setTitle] = useState();
@@ -44,17 +46,19 @@ const Property = () => {
   const [price, setPrice] = useState();
   const [area, setArea] = useState();
   //data.push({selected});
- // console.log(selected, 'SELECTED');
+  // console.log(selected, 'SELECTED');
   data.push({title: title});
   data.push({description: description});
   data.push({location: location});
   data.push({address: address});
   data.push({price: price});
   data.push({area: area});
-  const navigate = (data) => {
-    navigation.navigate('Images',{data,selected});
+  const navigate = data => {
+    
+   console.log(data);
+     navigation.navigate('Images',{data,selected});
   };
- 
+
   return (
     <View style={{flex: 1, backgroundColor: '#9bbad1'}}>
       <View style={{backgroundColor: '#9bbad1', marginTop: windowHeight / 30}}>
@@ -79,22 +83,21 @@ const Property = () => {
             rules={{
               required: 'Title is required',
               pattern: {
-                value:  /^[a-zA-Z][a-zA-Z\\s]/,
+                value: /^[a-zA-Z][a-zA-Z\\s]/,
                 message: 'Invalid Title',
               },
             }}
-            render={({field: {value,onChange}}) => (
-    
-                <TextInput
-                  placeholder="Enter Title of Property"
-                  name="title"
-                  value={value}
-                  style={styles.txtbox}
-                  onChangeText={text => {
-                    onChange(text);
-                    setTitle(text);
-                  }}
-                />
+            render={({field: {value, onChange}}) => (
+              <TextInput
+                placeholder="Enter Title of Property"
+                name="title"
+                value={value}
+                style={styles.txtbox}
+                onChangeText={text => {
+                  onChange(text);
+                  setTitle(text);
+                }}
+              />
             )}
             name="title"
           />
@@ -106,12 +109,12 @@ const Property = () => {
             control={control}
             rules={{
               required: 'Description is required',
-              pattern:{
+              pattern: {
                 value: /^.{10,700}$/,
-                message: 'Length must be between 10 - 700'
-              }
+                message: 'Length must be between 10 - 700',
+              },
             }}
-            render={({field: {value,onChange}}) => (
+            render={({field: {value, onChange}}) => (
               <TextInput
                 placeholder="Enter Description of Property"
                 name="description"
@@ -119,9 +122,9 @@ const Property = () => {
                 numberOfLines={10}
                 value={value}
                 style={styles.txtmultiline}
-                onChangeText={text=>{
+                onChangeText={text => {
                   setDescription(text);
-                  onChange(text)
+                  onChange(text);
                 }}
               />
             )}
@@ -135,46 +138,47 @@ const Property = () => {
             rules={{
               required: 'Rent is required',
               pattern: {
-                value:  /^\d+$/,
+                value: /^\d+$/,
                 message: 'Invalid Rent Amount',
               },
             }}
-            render={({field: {value,onChange}}) => (
+            render={({field: {value, onChange}}) => (
               <TextInput
                 placeholder="Enter Rent of Property/Month"
                 name="price"
                 value={value}
                 style={styles.txtbox}
                 keyboardType="number-pad"
-                onChangeText={text=>{
+                onChangeText={text => {
                   setPrice(text);
-                  onChange(text)
+                  onChange(text);
                 }}
               />
             )}
             name="price"
           />
-          {errors.price&& (
+          {errors.price && (
             <Text style={styles.error}>{errors.price.message}</Text>
           )}
+
           <Controller
             control={control}
             rules={{
               required: 'Location is required',
-              pattern:{
-                value:  /^[a-zA-Z][a-zA-Z\\s]+$/,
+              pattern: {
+                value: /^[a-zA-Z][a-zA-Z\\s]+$/,
                 message: 'Invalid Location',
-              }
+              },
             }}
-            render={({field: {value,onChange}}) => (
+            render={({field: {value, onChange}}) => (
               <TextInput
                 placeholder="Enter Location of Property by City"
                 name="location"
                 style={styles.txtbox}
                 value={value}
-                onChangeText={text=>{
+                onChangeText={text => {
                   setLocation(text);
-                  onChange(text)
+                  onChange(text);
                 }}
               />
             )}
@@ -187,9 +191,8 @@ const Property = () => {
             control={control}
             rules={{
               required: 'Address is required',
-              
             }}
-            render={({field: {value,onChange}}) => (
+            render={({field: {value, onChange}}) => (
               <TextInput
                 placeholder="Enter Address of Property"
                 name="address"
@@ -197,9 +200,9 @@ const Property = () => {
                 value={value}
                 numberOfLines={3}
                 style={styles.txtmultiline}
-                onChangeText={text=>{
+                onChangeText={text => {
                   setAddress(text);
-                  onChange(text)
+                  onChange(text);
                 }}
               />
             )}
@@ -211,20 +214,19 @@ const Property = () => {
           <Controller
             control={control}
             rules={{
-              required: 'Area is required'
+              required: 'Area is required',
             }}
-            render={({field: {value,onChange}}) => (
+            render={({field: {value, onChange}}) => (
               <TextInput
                 placeholder="Enter Carpet Area Of Property in sqft"
                 name="area"
                 style={styles.txtbox}
                 keyboardType="number-pad"
                 value={value}
-                onChangeText={text=>{
+                onChangeText={text => {
                   setArea(text);
-                  onChange(text)
+                  onChange(text);
                 }}
-                
               />
             )}
             name="area"
@@ -234,7 +236,7 @@ const Property = () => {
           )}
           <TouchableOpacity
             style={styles.buttonstyle}
-           onPress={handleSubmit((data)=>navigate(data))}>
+            onPress={handleSubmit(data => navigate(data) )}>
             <Text style={styles.signintxt}>Next</Text>
           </TouchableOpacity>
         </View>

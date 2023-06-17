@@ -24,6 +24,7 @@ const DetailHomeScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [data, setData] = useState(null);
+  
   const id = route.params.id;
   let result;
   const getApiData = async () => {
@@ -41,13 +42,6 @@ const DetailHomeScreen = () => {
     result = await result.json();
     setData(result);
   };
-  const callme = () => {
-    let phoneNumber = '01234567';
-    Linking.openURL(`tel:${phoneNumber}`);
-  };
-  const openComposer = () => {
-  Linking.openURL('sms:+91234567')
-  };
 
   const readmore = () => {
     navigation.navigate('PropertyDetails', {id});
@@ -57,7 +51,6 @@ const DetailHomeScreen = () => {
     getApiData();
   }, []);
 
-  const [modalVisible, setModalVisible] = useState(false);
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
@@ -171,14 +164,14 @@ const DetailHomeScreen = () => {
                 {data && (
                   <Text
                     style={{
-                      color: COLORS.blue,
+                      color: 'black',
                       fontWeight: 'bold',
                       fontSize: 20,
                     }}>
                     ${data.price}
                   </Text>
                 )}
-                <Text style={{fontSize: 14, fontWeight: '400'}}>
+                <Text style={{fontSize: 14, fontWeight: '400',marginBottom:10}}>
                   Total Price
                 </Text>
               </View>
@@ -261,16 +254,19 @@ const style = StyleSheet.create({
     borderRadius: 10,
   },
   footer: {
-    height: 70,
-    
-    borderRadius: 15,
+    height: 80,
+   borderTopRightRadius:15,
+   borderTopLeftRadius:15,
+   // borderRadius: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 10,
+    marginTop:5,
+
+   // marginVertical: 10,
    
-   backgroundColor:'#b0c5d4'
+   backgroundColor:'#9bbad1'
   },
   bookNowBtn: {
     height: 50,
@@ -279,6 +275,7 @@ const style = StyleSheet.create({
     backgroundColor: COLORS.dark,
     borderRadius: 10,
     paddingHorizontal: 20,
+    marginBottom:12
   },
   detailsContainer: {flex: 1, paddingHorizontal: 20, marginTop: 40},
   location: {flexDirection: 'row', marginTop: 10},
@@ -287,6 +284,7 @@ const style = StyleSheet.create({
     width: 50,
     height: 50,
     tintColor: 'white',
+ 
   },
   backIconContainer: {
     backgroundColor: 'white',

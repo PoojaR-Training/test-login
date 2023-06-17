@@ -1,53 +1,56 @@
 import {
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Dimensions,
-    LogBox,
-    Platform
-  } from 'react-native';
-  import React, {useState} from 'react';
-  import SPACING from '../../config/SPACING';
-  import colors from '../../config/colors';
-  import DATA from '../../config/DATA';
-  import DetailsScreen1 from '../DetailScreen/DetailsScreen1';
-  import SearchScreen from '../SearchScrren/SearchScreen';
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Platform,
+} from 'react-native';
+import React, {useState} from 'react';
+import SPACING from '../../config/SPACING';
+import colors from '../../config/colors';
+import DATA from '../../config/DATA';
+import DetailsScreen1 from '../DetailScreen/DetailsScreen1';
+import SearchScreen from '../SearchScrren/SearchScreen';
 
-  
-const Header = ({ updateLikedProperties, likedProperties }) => {
-    const [activeCategory, setActiveCategory] = useState(0);
-    const [input,setInput] = useState("");
-    const [search, setSearch] = useState();
-        return (
-      <SafeAreaView style={{flex: 1,backgroundColor: '#9bbad1'}}>
-        <View style={{flex:1}}>
-        <View style={{flex: 0.22,backgroundColor: '#9bbad1' }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingHorizontal: 10,
-               marginTop: 10,
-            }}>
-             <View style={ style.searchInputContainer1 }>
+const Header = () => {
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [input, setInput] = useState('');
+  const [search, setSearch] = useState('');
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#9bbad1' }}>
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 0.22, backgroundColor: '#9bbad1' }}>
+          <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginTop: 10 }}>
+            <View style={styles.searchInputContainer1}>
               <TextInput
                 placeholder="Search by city"
-                style={{fontSize: 14}}
+                style={{ fontSize: 14 }}
                 value={input}
-                onChangeText={(text) =>setInput(text)}
-                onSubmitEditing={()=>setSearch(input)}
+                onChangeText={(text) => setInput(text)}
+                onSubmitEditing={() => setSearch(input)}
               />
+              {input.length > 0 && (
+                <TouchableOpacity onPress={() => setSearch(input)} style={styles.searchicon}>
+                  <Image
+                    source={require('../../assets/search2.png')}
+                    style={{ width: 20, height: 20,  }}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
+
+
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}  contentContainerStyle={{alignItems:'center'}}>
             {DATA.map((category, index) => (
               <TouchableOpacity
-                style={style.headerScroll }
+                style={styles.headerScroll }
                 key={index}
                 onPress={() => setActiveCategory(index)}>
                 <Text
@@ -70,21 +73,25 @@ const Header = ({ updateLikedProperties, likedProperties }) => {
           </ScrollView>
         </View>
         <View style={{flex: 1}}>
+        
           {
+            
             (!input)?<DetailsScreen1 activeCategory={activeCategory}/>:
             search?<SearchScreen search={search} activeCategory={activeCategory}/>:<DetailsScreen1 activeCategory={activeCategory}/>
           }
-      
+     
         </View>
+      
                 
      </View>
+  
       </SafeAreaView>
     );
   };
   
  
   
-  const style = StyleSheet.create({
+  const styles = StyleSheet.create({
     headerScroll:{
       marginRight: SPACING * 2,
       marginLeft: SPACING * 1,
@@ -96,7 +103,7 @@ const Header = ({ updateLikedProperties, likedProperties }) => {
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: 20,
-      padding:10,
+      padding: Platform.OS=='ios'? 10:5,
       borderRadius: 20,
       borderColor: 'black',
       borderWidth: 1,
@@ -122,5 +129,10 @@ const Header = ({ updateLikedProperties, likedProperties }) => {
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
     },
+    searchicon:{
+      flex:1,
+      justifyContent:'flex-end',
+      alignItems:'flex-end'
+    }
   });
   export default Header;

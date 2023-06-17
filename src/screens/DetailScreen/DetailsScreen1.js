@@ -71,6 +71,7 @@ const DetailsScreen1 = ({activeCategory}) => {
       return;
     }
     try {
+     
       const token = await AsyncStorage.getItem('token');
       const response = await fetch(
         `http://192.168.200.136:8000/property/updatelike/${id}`,

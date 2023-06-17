@@ -23,6 +23,8 @@ const UserProfileScreen = ({navigation}) => {
   async function checkToken() {
     try {
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('id');
+      await AsyncStorage.clear();
       const token = await AsyncStorage.getItem('token');
       if (token) {
         setIsLoggedIn(true);
@@ -39,6 +41,7 @@ const UserProfileScreen = ({navigation}) => {
 
   const getApiData = async () => {
     let id = await AsyncStorage.getItem('id');
+    console.log(id,"getApiid................................");
     const token = await AsyncStorage.getItem('token');
     let result = await fetch(
       `http://192.168.200.136:8000/users/userbyid/${id}`,
